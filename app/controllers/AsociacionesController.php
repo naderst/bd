@@ -5,22 +5,45 @@ class AsociacionesController extends BaseController {
 		'estado' => 'required'
 	);
 
+	private function getEstados() {
+		$result = DB::table('estados')->get();
+		$estados = array();
+
+		foreach($result as $e)
+			$estados[$e->estado] = $e->estado;
+		return $estados;
+	}
+
 	function getIndex() {
 		return View::make('asociaciones.index', array(
 			'asociaciones' => Asociacion::all()
 		));
 	}
 
+	function getAgregar() {
+		return View::make('asociaciones.modificar', array(
+			'estados' => $this->getEstados()
+		));
+	}
+
+	function postAgregar() {
+		$validator = Validator::make(Input::all(), $this->rules);
+
+		if($validator->fails()) {
+			Input::flash();
+			return Redirect::action('AsociacionesController@getAgregar')->withErrors($validator)->withInput();
+		}
+
+		DB::table('asociaciones')->insert(Input::except('_token'));
+		Session::flash('message', 'Se ha agregado la asociación con éxito');
+
+		return Redirect::action('AsociacionesController@getIndex');
+	}
+
 	function getModificar($codigo) {
-		$result = DB::table('estados')->get();
-		$estados = array();
-
-		foreach($result as $e)
-			$estados[$e->estado] = $e->estado;
-
 		return View::make('asociaciones.modificar', array(
 			'asoc' => DB::table('asociaciones')->where('codigo', $codigo)->first(),
-			'estados' => $estados
+			'estados' => $this->getEstados()
 		));
 	}
 
@@ -44,7 +67,9 @@ class AsociacionesController extends BaseController {
 		} catch(Exception $exception) {
 			Session::flash('message', 'Error eliminando la asociación, el servidor dijo:<br>'.$exception->getMessage());
 		}
-		
+	
+		Session::flash('message', 'Se ha eliminado la asociación con éxito');
+	
 		return Redirect::action('AsociacionesController@getIndex');
 	}
 }

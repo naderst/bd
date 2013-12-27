@@ -18,4 +18,6 @@
 	    </tr>
 		@endforeach
 	</table>
+
+	{{ HTML::linkAction('AsociacionesController@getAgregar', 'Nueva asociación') }}
 @stop
