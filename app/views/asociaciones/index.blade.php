@@ -1,7 +1,21 @@
 @extends('layouts.default')
 
 @section('content')
-    @foreach ($asociaciones as $e)
-    	Asocación: {{ $e->nombre }} ({{ $e->estado }})<br>
-	@endforeach
+	<table cellspacing="0" cellpadding="5" border="1">
+    	<tr>
+    		<th>Nombre</th>
+    		<th>Estado</th>
+    		<th>Acción</th>
+    	</tr>
+	    @foreach ($asociaciones as $e)
+	    <tr>
+	    	<td>{{ $e->nombre }}</td>
+	    	<td>{{ $e->estado }}</td>
+	    	<td>
+	    		{{ HTML::linkAction('AsociacionesController@getModificar', 'Modificar', array($e->codigo)) }} /
+	    		<a href="{{ URL::action('AsociacionesController@getEliminar', array($e->codigo)) }}" onclick="javascript:return confirm('¿Está seguro que desea eliminar la asociación con el código {{ $e->codigo }}');">Eliminar</a>
+	    	</td>
+	    </tr>
+		@endforeach
+	</table>
 @stop
