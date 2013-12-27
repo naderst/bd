@@ -64,11 +64,11 @@ class AsociacionesController extends BaseController {
 	function getEliminar($codigo) {
 		try {
 			DB::table('asociaciones')->where('codigo', $codigo)->delete();
+			Session::flash('message', 'Se ha eliminado la asociación con éxito');
 		} catch(Exception $exception) {
 			Session::flash('message', 'Error eliminando la asociación, el servidor dijo:<br>'.$exception->getMessage());
+			Session::flash('message_type', 'error');
 		}
-	
-		Session::flash('message', 'Se ha eliminado la asociación con éxito');
 	
 		return Redirect::action('AsociacionesController@getIndex');
 	}
