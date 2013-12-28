@@ -2,6 +2,7 @@
 <html lang="es">
 	<head>
 		<meta charset="UTF-8">
+		{{ HTML::style('css/style.css') }}
 	</head>
 	<body>
 		@if (Session::has('login_message'))

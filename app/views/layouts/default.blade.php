@@ -2,6 +2,7 @@
 <html lang="es">
 	<head>
 		<meta charset="UTF-8">
+		{{ HTML::style('css/style.css') }}
 	</head>
 	<body>
 		<h2>Bienvenido {{ Auth::user()->username }} ({{ HTML::link('/logout', 'Logout') }}) </h2>

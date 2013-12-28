@@ -2,7 +2,11 @@
 
 @section('content')
 	@if ($errors->any())
-		Hay errores: {{ print_r($errors) }}
+	<div id="message" class="error">
+		@foreach ($errors->all() as $message)
+			{{ $message }} <br>
+		@endforeach
+	</div>
 	@endif
 
 	@if (isset($asoc))

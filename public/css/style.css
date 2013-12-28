@@ -1,0 +1,10 @@
+#message {
+	width: 100%;
+	padding: 10px;
+	background-color: green;
+	border: 1px #000 solid;
+}
+
+#message.error {
+	background-color: red !important;
+}
