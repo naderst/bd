@@ -14,6 +14,10 @@ class AsociacionesController extends BaseController {
 		return $estados;
 	}
 
+	function __construct() {
+		$this->beforeFilter('auth');
+	}
+
 	function getIndex() {
 		return View::make('asociaciones.index', array(
 			'asociaciones' => Asociacion::all()
@@ -30,7 +34,6 @@ class AsociacionesController extends BaseController {
 		$validator = Validator::make(Input::all(), $this->rules);
 
 		if($validator->fails()) {
-			Input::flash();
 			return Redirect::action('AsociacionesController@getAgregar')->withErrors($validator)->withInput();
 		}
 
@@ -51,7 +54,6 @@ class AsociacionesController extends BaseController {
 		$validator = Validator::make(Input::all(), $this->rules);
 
 		if($validator->fails()) {
-			Input::flash();
 			return Redirect::action('AsociacionesController@getModificar', $codigo)->withErrors($validator)->withInput();
 		}
 

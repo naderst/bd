@@ -14,6 +14,38 @@
 Route::get('/', function()
 {
 	return View::make('hello');
-});
+})->before('auth');
 
 Route::controller('asociaciones', 'AsociacionesController');
+
+Route::get('/login', array('as' => 'login',function()
+{
+	return View::make('login');
+}))->before('guest');
+
+Route::post('/login', function()
+{
+    $user = array(
+        'username' => Input::get('username'),
+        'password' => Input::get('password')
+    );
+
+    if(Input::has('remember'))
+    	$remember = true;
+    else
+    	$remember = false;
+    
+    if (Auth::attempt($user, $remember)) {
+        return Redirect::intended('/');
+    }
+    
+    return Redirect::route('login')
+        ->with('login_message', 'Nombre de usuario y/o contraseña incorrecta')
+        ->withInput();
+});
+
+Route::get('/logout', function()
+{
+	Auth::logout();
+	return Redirect::to('/login');
+})->before('auth');
