@@ -14,10 +14,6 @@ class AsociacionesController extends BaseController {
 		return $estados;
 	}
 
-	function __construct() {
-		$this->beforeFilter('auth');
-	}
-
 	function getIndex() {
 		return View::make('asociaciones.index', array(
 			'asociaciones' => Asociacion::all()

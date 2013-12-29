@@ -11,12 +11,16 @@
 |
 */
 
-Route::get('/', function()
+Route::group(array('before' => 'auth'), function()
 {
-	return View::make('hello');
-})->before('auth');
+    Route::get('/', function()
+    {
+        return View::make('hello');
+    });
 
-Route::controller('asociaciones', 'AsociacionesController');
+    Route::controller('asociaciones', 'AsociacionesController');
+    Route::controller('clubes', 'ClubesController');
+});
 
 Route::get('/login', array('as' => 'login',function()
 {
