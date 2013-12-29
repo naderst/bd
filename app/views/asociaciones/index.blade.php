@@ -13,7 +13,7 @@
 	    	<td>{{ $e->estado }}</td>
 	    	<td>
 	    		{{ HTML::linkAction('AsociacionesController@getModificar', 'Modificar', array($e->codigo)) }} /
-	    		<a href="{{ URL::action('AsociacionesController@getEliminar', array($e->codigo)) }}" onclick="javascript:return confirm('¿Está seguro que desea eliminar la asociación {{ $e->nombre }}');">Eliminar</a>
+	    		<a href="{{ URL::action('AsociacionesController@getEliminar', array($e->codigo)) }}" onclick="javascript:return confirm('¿Está seguro que desea eliminar la asociación {{ $e->nombre }}?');">Eliminar</a>
 	    	</td>
 	    </tr>
 		@endforeach
