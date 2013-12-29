@@ -28,5 +28,4 @@
 	</table>
 	{{ $atletas->links() }}<br><br>
 	{{ HTML::linkAction('AtletasController@getAgregar', 'Nuevo atleta') }}
-
 @stop

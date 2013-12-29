@@ -56,7 +56,7 @@ class AsociacionesController extends BaseController {
 		DB::table('asociaciones')->where('codigo', $codigo)->update(Input::except('_token'));
 		Session::flash('message', 'Se ha actualizado la asociación con éxito');
 
-		return Redirect::action('AsociacionesController@getIndex');
+		return $this->redirect2index('/asociaciones');
 	}
 
 	function getEliminar($codigo) {
@@ -68,7 +68,7 @@ class AsociacionesController extends BaseController {
 			Session::flash('message_type', 'error');
 		}
 	
-		return Redirect::action('AsociacionesController@getIndex');
+		return $this->redirect2index('/asociaciones');
 	}
 }
 ?>

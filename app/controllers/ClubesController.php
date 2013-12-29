@@ -37,7 +37,7 @@ class ClubesController extends BaseController {
 		Club::where('codigo', $codigo)->update(Input::except('_token'));
 		Session::flash('message', 'Se ha actualizado el club con éxito');
 
-		return Redirect::action('ClubesController@getIndex');
+		return $this->redirect2index('/clubes');
 	}
 
 	function getAgregar() {
@@ -68,7 +68,7 @@ class ClubesController extends BaseController {
 			Session::flash('message_type', 'error');
 		}
 	
-		return Redirect::action('ClubesController@getIndex');
+		return $this->redirect2index('/clubes');
 	}
 }
 ?>
