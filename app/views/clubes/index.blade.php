@@ -18,6 +18,7 @@
 	    </tr>
 		@endforeach
 	</table>
-
+	{{ $clubes->links() }}<br><br>
 	{{ HTML::linkAction('ClubesController@getAgregar', 'Nuevo club') }}
+
 @stop

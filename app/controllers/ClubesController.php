@@ -17,7 +17,7 @@ class ClubesController extends BaseController {
 
 	function getIndex() {
 		return View::make('clubes.index', array(
-			'clubes' => Club::all()
+			'clubes' => Club::paginate(5)
 		));
 	}
 
