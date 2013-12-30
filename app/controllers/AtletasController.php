@@ -3,7 +3,8 @@ class AtletasController extends BaseController {
 	private $rules = array(
 		'cedula' => 'required|unique:atletas',
 		'nombres' => 'required|min:2',
-		'apellidos' => 'required|min:2'
+		'apellidos' => 'required|min:2',
+		'fecha_nacimiento' => 'required|date_format:d/m/Y'
 	);
 
 	private function getClubes() {
@@ -23,7 +24,22 @@ class AtletasController extends BaseController {
 	}
 
 	function getAgregar() {
-		return "agregar atleta";
+		return View::make('atletas.modificar', array(
+			'clubes' => $this->getClubes()
+		));
+	}
+
+	function postAgregar() {
+		$validator = Validator::make(Input::all(), $this->rules);
+
+		if($validator->fails()) {
+			return Redirect::action('AtletasController@getAgregar')->withErrors($validator)->withInput();
+		}
+
+		Atleta::insert(Input::except('_token'));
+		Session::flash('message', 'Se ha agregado el atleta con éxito');
+
+		return Redirect::action('AtletasController@getIndex');
 	}
 
 	function getModificar($cedula) {
@@ -31,6 +47,21 @@ class AtletasController extends BaseController {
 			'atletas' => Atleta::find($cedula),
 			'clubes' => $this->getClubes()
 		));
+	}
+
+	function postModificar($cedula) {
+		unset($this->rules['cedula']);
+
+		$validator = Validator::make(Input::all(), $this->rules);
+
+		if($validator->fails()) {
+			return Redirect::action('AtletasController@getModificar', $cedula)->withErrors($validator)->withInput();
+		}
+
+		Atleta::where('cedula', $cedula)->update(Input::except('_token', 'cedula'));
+		Session::flash('message', 'Se ha actualizado el atleta con éxito');
+
+		return Redirect::to(Session::get('page.url'));
 	}
 
 	function getEliminar($cedula) {

@@ -16,7 +16,7 @@
 	    	<td>{{ $e->cedula }}</td>
 	    	<td>{{ $e->nombres }}</td>
 	    	<td>{{ $e->apellidos }}</td>
-	    	<td>{{ date('d/m/Y', strtotime($e->fecha_nacimiento)) }}</td>
+	    	<td>{{ $e->fecha_nacimiento }}</td>
 	    	<td>{{ $e->sexo }}</td>
 	    	<td>{{ $e->club->nombre }}</td>
 	    	<td>
