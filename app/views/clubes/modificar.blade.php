@@ -27,7 +27,7 @@
 	{{ Form::select('codigo_asociacion', $asociaciones) }}
 	<br>
 	{{ Form::submit('Guardar') }}
-	<input type="button" onclick="javascript:document.location='{{ URL::action('ClubesController@getIndex') }}'" value="Cancelar">
+	<input type="button" onclick="javascript:document.location='{{ URL::to(Session::get('page.url')) }}'" value="Cancelar">
 
 	{{ Form::close() }}
 @stop

@@ -16,7 +16,7 @@ class AsociacionesController extends BaseController {
 
 	function getIndex() {
 		return View::make('asociaciones.index', array(
-			'asociaciones' => Asociacion::all()
+			'asociaciones' => Asociacion::orderBy('codigo', 'desc')->get()
 		));
 	}
 
@@ -56,7 +56,7 @@ class AsociacionesController extends BaseController {
 		DB::table('asociaciones')->where('codigo', $codigo)->update(Input::except('_token'));
 		Session::flash('message', 'Se ha actualizado la asociación con éxito');
 
-		return $this->redirect2index('/asociaciones');
+		return Redirect::to(Session::get('page.url'));
 	}
 
 	function getEliminar($codigo) {
@@ -68,7 +68,7 @@ class AsociacionesController extends BaseController {
 			Session::flash('message_type', 'error');
 		}
 	
-		return $this->redirect2index('/asociaciones');
+		return Redirect::to(Session::get('page.url'));
 	}
 }
 ?>

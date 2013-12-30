@@ -6,9 +6,19 @@ class AtletasController extends BaseController {
 		'apellidos' => 'required|min:2'
 	);
 
-	function getIndex() {		
+	private function getClubes() {
+		$clubes = Club::all();
+		$a = array();
+		
+		foreach($clubes as $e)
+			$a[$e->codigo] = $e->nombre;
+		
+		return $a;
+	}
+
+	function getIndex() {
 		return View::make('atletas.index', array(
-			'atletas' => Atleta::paginate(5)
+			'atletas' => Atleta::orderBy('apellidos', 'asc')->paginate(5)
 		));
 	}
 
@@ -17,7 +27,10 @@ class AtletasController extends BaseController {
 	}
 
 	function getModificar($cedula) {
-		return Atleta::get($cedula);
+		return View::make('atletas.modificar', array(
+			'atletas' => Atleta::find($cedula),
+			'clubes' => $this->getClubes()
+		));
 	}
 
 	function getEliminar($cedula) {
@@ -29,7 +42,7 @@ class AtletasController extends BaseController {
 			Session::flash('message_type', 'error');
 		}
 
-		return $this->redirect2index('/atletas');
+		return Redirect::to(Session::get('page.url'));
 	}
 }
 ?>

@@ -17,7 +17,7 @@ class ClubesController extends BaseController {
 
 	function getIndex() {
 		return View::make('clubes.index', array(
-			'clubes' => Club::paginate(5)
+			'clubes' => Club::orderBy('codigo', 'desc')->paginate(5)
 		));
 	}
 
@@ -37,7 +37,7 @@ class ClubesController extends BaseController {
 		Club::where('codigo', $codigo)->update(Input::except('_token'));
 		Session::flash('message', 'Se ha actualizado el club con éxito');
 
-		return $this->redirect2index('/clubes');
+		return Redirect::to(Session::get('page.url'));
 	}
 
 	function getAgregar() {
@@ -68,7 +68,7 @@ class ClubesController extends BaseController {
 			Session::flash('message_type', 'error');
 		}
 	
-		return $this->redirect2index('/clubes');
+		return Redirect::to(Session::get('page.url'));
 	}
 }
 ?>

@@ -27,7 +27,7 @@
 	{{ Form::select('estado', $estados) }}
 	<br>
 	{{ Form::submit('Guardar') }}
-	<input type="button" onclick="javascript:document.location='{{ URL::action('AsociacionesController@getIndex') }}'" value="Cancelar">
+	<input type="button" onclick="javascript:document.location='{{ URL::to(Session::get('page.url')) }}'" value="Cancelar">
 
 	{{ Form::close() }}
 @stop
