@@ -16,7 +16,7 @@ class AsociacionesController extends BaseController {
 
 	function getIndex() {
 		return View::make('asociaciones.index', array(
-			'asociaciones' => Asociacion::orderBy('codigo', 'desc')->get()
+			'asociaciones' => Asociacion::orderBy('codigo', 'desc')->paginate(5)
 		));
 	}
 
