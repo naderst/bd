@@ -18,7 +18,7 @@
     </li>
 	@if (Request::segment(2) == 'buscar')
 		<li>
-			<a href="{{ URL::to(Session::get('page.url')) }}">
+			<a href="{{ URL::action('AsociacionesController@getIndex') }}">
 				<i class="fa fa-arrow-circle-left"></i>
 				<span>Volver</span>
 			</a>
