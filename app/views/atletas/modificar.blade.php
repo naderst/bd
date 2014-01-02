@@ -33,7 +33,7 @@
 	{{ Form::label('apellidos', 'Apellidos') }}
 	{{ Form::text('apellidos') }}
 	<br>
-	{{ Form::label('fecha_nacimiento', 'Fecha de nacimiento (d/m/y)') }}
+	{{ Form::label('fecha_nacimiento', 'Fecha de nacimiento (d/m/a)') }}
 	{{ Form::text('fecha_nacimiento') }}
 	<br>
 	{{ Form::label('sexo', 'Sexo') }}

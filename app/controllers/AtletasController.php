@@ -30,7 +30,7 @@ class AtletasController extends BaseController {
 	}
 
 	function postAgregar() {
-		$validator = Validator::make(Input::all(), $this->rules);
+		$validator = Validator::make(Input::all(), $this->rules, $this->messages);
 
 		if($validator->fails()) {
 			return Redirect::action('AtletasController@getAgregar')->withErrors($validator)->withInput();
@@ -52,7 +52,7 @@ class AtletasController extends BaseController {
 	function postModificar($cedula) {
 		unset($this->rules['cedula']);
 
-		$validator = Validator::make(Input::all(), $this->rules);
+		$validator = Validator::make(Input::all(), $this->rules, $this->messages);
 
 		if($validator->fails()) {
 			return Redirect::action('AtletasController@getModificar', $cedula)->withErrors($validator)->withInput();

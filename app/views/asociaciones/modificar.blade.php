@@ -10,7 +10,7 @@
 
 @section('breadcrumb')
 	<li>
-		<a href="{{ URL::to(Session::get('page.url')) }}" onclick="javascript:return goBack();">
+		<a href="{{ URL::to(Session::get('page.url')) }}">
 			<i class="fa fa-arrow-circle-left"></i>
 			<span>Volver</span>
 		</a>

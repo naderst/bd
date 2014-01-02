@@ -37,7 +37,3 @@ function frmSubmitAdd(id) {
     $(id).attr('action', $(id).attr('action') + '/agregar');
     $(id).submit();
 }
-
-function goBack() {
-    return confirm('¿Está seguro que desea volver?');
-}

@@ -6,7 +6,7 @@ class AsociacionesController extends BaseController {
 	);
 
 	private function getEstados() {
-		$result = DB::table('estados')->get();
+		$result = DB::table('estados')->orderBy('estado', 'asc')->get();
 		$estados = array();
 
 		foreach($result as $e)
@@ -27,7 +27,7 @@ class AsociacionesController extends BaseController {
 	}
 
 	function postAgregar($agregar = null) {
-		$validator = Validator::make(Input::all(), $this->rules);
+		$validator = Validator::make(Input::all(), $this->rules, $this->messages);
 
 		if($validator->fails()) {
 			return Redirect::action('AsociacionesController@getAgregar')->withErrors($validator)->withInput();
@@ -50,7 +50,7 @@ class AsociacionesController extends BaseController {
 	}
 
 	function postModificar($codigo) {
-		$validator = Validator::make(Input::all(), $this->rules);
+		$validator = Validator::make(Input::all(), $this->rules, $this->messages);
 
 		if($validator->fails()) {
 			return Redirect::action('AsociacionesController@getModificar', $codigo)->withErrors($validator)->withInput();
@@ -72,6 +72,21 @@ class AsociacionesController extends BaseController {
 		}
 	
 		return Redirect::to(Session::get('page.url'));
+	}
+
+	function getBuscar() {
+		$q = Input::get('q');
+
+		if(trim($q) == '') {
+			Session::flash('message', 'No puede realizar una búsqueda vacía');
+			Session::flash('message_type', 'error');
+			return Redirect::to(Session::get('page.url'));
+		}
+
+		return View::make('asociaciones.index', array(
+			'q' => $q,
+			'asociaciones' => Asociacion::where('nombre', 'ILIKE', '%'.$q.'%')->orderBy('codigo', 'desc')->paginate(5)
+		));
 	}
 }
 ?>
