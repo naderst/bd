@@ -29,7 +29,7 @@ class ClubesController extends BaseController {
 	}
 
 	function postModificar($codigo) {
-		$validator = Validator::make(Input::all(), $this->rules);
+		$validator = Validator::make(Input::all(), $this->rules, $this->messages);
 
 		if($validator->fails()) {
 			return Redirect::action('ClubesController@getModificar', $codigo)->withErrors($validator)->withInput();
@@ -46,8 +46,8 @@ class ClubesController extends BaseController {
 		));
 	}
 
-	function postAgregar() {
-		$validator = Validator::make(Input::all(), $this->rules);
+	function postAgregar($agregar = null) {
+		$validator = Validator::make(Input::all(), $this->rules, $this->messages);
 
 		if($validator->fails()) {
 			return Redirect::action('ClubesController@getAgregar')->withErrors($validator)->withInput();
@@ -56,7 +56,10 @@ class ClubesController extends BaseController {
 		Club::insert(Input::except('_token'));
 		Session::flash('message', 'Se ha agregado el club con éxito');
 
-		return Redirect::action('ClubesController@getIndex');
+		if($agregar)
+			return Redirect::action('ClubesController@getAgregar');
+		else
+			return Redirect::action('ClubesController@getIndex');
 	}
 
 	function getEliminar($codigo) {
@@ -69,6 +72,21 @@ class ClubesController extends BaseController {
 		}
 	
 		return Redirect::to(Session::get('page.url'));
+	}
+
+	function getBuscar() {
+		$q = Input::get('q');
+
+		if(trim($q) == '') {
+			Session::flash('message', 'No puede realizar una búsqueda vacía');
+			Session::flash('message_type', 'error');
+			return Redirect::to(Session::get('page.url'));
+		}
+
+		return View::make('clubes.index', array(
+			'q' => $q,
+			'clubes' => Club::where('nombre', 'ILIKE', '%'.$q.'%')->orderBy('codigo', 'desc')->paginate(5)
+		));
 	}
 }
 ?>

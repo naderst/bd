@@ -71,7 +71,7 @@ class AsociacionesController extends BaseController {
 			Session::flash('message_type', 'error');
 		}
 	
-		return Redirect::action(Session::get('page.url'));
+		return Redirect::to(Session::get('page.url'));
 	}
 
 	function getBuscar() {
