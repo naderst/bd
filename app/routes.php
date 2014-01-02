@@ -15,7 +15,7 @@ Route::group(array('before' => 'auth'), function()
 {
     Route::get('/', function()
     {
-        return View::make('hello');
+        return View::make('index');
     });
 
     Route::controller('asociaciones', 'AsociacionesController');
