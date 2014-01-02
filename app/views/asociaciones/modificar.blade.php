@@ -1,5 +1,36 @@
 @extends('layouts.default')
 
+@section('title')
+	Asociaciones
+@stop
+
+@section('description')
+	Aquí se listan todas las asociaciones registradas. Puedes crear nuevas, editar y borrar existentes.
+@stop
+
+@section('breadcrumb')
+	<li>
+		<a href="{{ URL::to(Session::get('page.url')) }}" onclick="javascript:return goBack();">
+			<i class="fa fa-arrow-circle-left"></i>
+			<span>Volver</span>
+		</a>
+	</li>
+    <li>
+        <a href="javascript:void(0)" onclick="javascript:frmSubmit('frmAsoc');">
+            <i class="fa fa-floppy-o"></i>
+            <span>Guardar</span>
+        </a>
+    </li>
+    @if(!isset($asoc))
+    <li>
+        <a href="javascript:void(0)" onclick="javascript:frmSubmitAdd('frmAsoc')">
+            <i class="fa fa-plus-square"></i>
+            <span>Guardar y agregar otro</span>
+        </a>
+    </li>
+    @endif
+@stop
+
 @section('content')
 	@if ($errors->any())
 	<div id="message" class="error">
@@ -14,20 +45,29 @@
 			'action' => array(
 				'AsociacionesController@getModificar',
 				$asoc->codigo
-			))
-		)}}
+			),
+			'id' => 'frmAsoc'
+		))}}
 	@else
-		{{ Form::open(array('action' => 'AsociacionesController@getAgregar')) }}
+		{{ Form::open(array('action' => 'AsociacionesController@getAgregar', 'id' => 'frmAsoc')) }}
 	@endif
 
-	{{ Form::label('nombre', 'Nombre') }}
-	{{ Form::text('nombre') }}
-	<br>
-	{{ Form::label('estado', 'Estado') }}
-	{{ Form::select('estado', $estados) }}
-	<br>
-	{{ Form::submit('Guardar') }}
-	<input type="button" onclick="javascript:document.location='{{ URL::to(Session::get('page.url')) }}'" value="Cancelar">
+	<table class="formulario">
+	    <tbody>
+	        <tr>
+	            <td>Nombre:</td>
+	            <td>
+	                {{ Form::text('nombre') }}
+	            </td>
+	        </tr>
+	        <tr>
+	            <td>Estado:</td>
+	            <td>
+	                {{ Form::select('estado', $estados) }}
+	            </td>
+	        </tr>
+	    </tbody>
 
+	</table>
 	{{ Form::close() }}
 @stop

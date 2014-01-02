@@ -1,0 +1,471 @@
+@charset "utf-8";
+
+/*  FVTM - UCAB Guayana
+    Tema: Ping Pong
+    Tema URL: https://github.com/naderst/bd
+    Autores: Nader Abu Fakhr - naderst@gmail.com - @naderst 
+             José Cols - josecolsg@gmail.com - @josecols
+             Moisés Moussa
+    Version: 1.0
+*/
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+    display: block
+}
+nav ul {
+    list-style: none
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+i {
+    margin: 0 3px;
+}
+#mapa {
+    height: 500px;
+    width: 100%;
+}
+body {
+    color: #444;
+    background-color: #F0F0F0;
+    font-family: 'Open Sans', sans-serif;
+}
+#barra {
+    background-color: #2A2C2B;
+    height: 42px;
+    min-width: 360px;
+    width: 100%;
+}
+#barra .navegacion {
+    color: #FFF;
+    float: right;
+}
+#barra .navegacion .usuario {
+    display: none;
+}
+#barra .navegacion li {
+    display: inline-block
+}
+#barra .navegacion a {
+    color: #FFF;
+    padding: 10px 6px;
+    text-decoration: none;
+}
+#barra .navegacion a:hover {
+    background-color: #1E1E20
+}
+#barra .navegacion a:active {
+    background-color: #161617
+}
+#barra .contenido {
+    padding: 8px 0 8px 8px
+}
+#barra h1 {
+    color: #FFF;
+    float: left;
+    font-size: 1.2em;
+    font-weight: 300;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.7);
+}
+#usuario {
+    display: none;
+}
+#usuario a {
+    color: #000;
+    display: block;
+    font-size: 14px;
+    padding: 6px;
+    text-decoration: none;
+}
+#usuario a:hover {
+    text-decoration: underline;
+}
+#aside {
+    display: none;
+    width: 100%;
+}
+#aside .navegacion .seleccionado {
+    background-color: #F2B705;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.7);
+    color: #FFF;
+}
+#aside .navegacion .flecha {
+    display: none
+}
+#aside .navegacion a {
+    color: #444;
+    display: block;
+    padding: 10px;
+    position: relative;
+    text-decoration: none;
+    text-shadow: 1px 1px 0 #FFF;
+}
+#aside .navegacion a:hover {
+    color: #FFF;
+    background-color: #D91E1E;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.7);
+}
+#aside .navegacion a:active {
+    background-color: #C41B1B
+}
+#aside .navegacion i {
+    margin: 0 6px;
+}
+#pagina {
+    background-color: #F0F0F0
+}
+#principal {
+    background-color: #FFF;
+    padding: 0 20px;
+}
+#principal .breadcrumb {
+    background-color: #F0F0F0;
+    border-radius: 6px;
+    height: 36px;
+    margin: 0 0 20px;
+    min-width: 360px;
+}
+#principal .breadcrumb .fecha {
+    display: none
+}
+#principal .breadcrumb li {
+    display: inline-block
+}
+#principal .breadcrumb i {
+    margin: 0 6px;
+}
+#principal .breadcrumb a {
+    color: #444;
+    display: inline-block;
+    padding: 7px 7px;
+    text-decoration: none;
+}
+#principal .breadcrumb a:hover {
+    background-color: #F5F5F5
+}
+#principal .breadcrumb a:active {
+    background-color: #DDD
+}
+#principal .breadcrumb a span {
+    display: none;
+}
+#principal .breadcrumb .busqueda {
+    background-color: #F0F0F0;
+    border: 1px solid #F0F0F0;
+    font-size: 1em;
+    height: 33px;
+    width: 120px;
+    padding: 1px 3px 0;
+}
+#principal .breadcrumb .busqueda:hover {
+    background-color: #F5F5F5;
+    cursor: pointer;
+}
+#principal .breadcrumb .busqueda:focus {
+    background: #E5E5E5 !important;
+    cursor: text;
+    outline: none
+}
+#principal .breadcrumb form i {
+    margin: 0 0 0 7px;
+}
+#principal .subtitulo {
+    font-size: 1.6em;
+    font-weight: 300;
+    padding: 20px 0 10px;
+}
+#principal .titulo {
+    font-size: 2em;
+    font-weight: 300;
+    padding: 20px 0 15px;
+}
+#principal .titulo small {
+    color: #777;
+    font-size: 16px;
+    font-weight: 300;
+}
+#principal .perfil {
+    display: none;
+    margin: 0 auto;
+    width: 250px;
+}
+#principal .perfil img {
+    border: 4px solid #CCC
+}
+#maia-signature {
+    clear: both;
+    margin: 120px auto 0;
+    max-width: 1291px;
+    min-height: 5px;
+}
+#maia-signature:before,
+[dir=rtl] #maia-signature:after {
+    border-left: 35px solid #006225;
+}
+#maia-signature:after,
+[dir=rtl] #maia-signature:before {
+    border-left: 34px solid #FFD100;
+    border-right: 35px solid #12B6EB;
+}
+#maia-signature:after,
+#maia-signature:before {
+    content: "";
+    float: right;
+    height: 5px;
+}
+#footer {
+    text-align: right;
+    font-weight: 300;
+    padding: 10px 28px 10px 0;
+}
+#message {
+    background-color: #27ae60;
+    margin-bottom: 20px;
+    padding: 10px;
+    color: #fff;
+}
+#message.error {
+    background-color: #e74c3c !important
+}
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+.pagination a {
+    color: #0378A6;
+    text-decoration: none;
+}
+.pagination a:hover {
+    color: #000;
+}
+.pagination li {
+    display: inline;
+    padding-right: 15px;
+}
+.formulario input[type="text"],
+.formulario input[type="password"],
+.formulario textarea {
+    background-color: #f1f1f1;
+    border: 1px solid #bfbfbf;
+    box-shadow: 0 1px 4px 1px #DDD inset;
+    padding: 6px 5px
+}
+.formulario input[type="text"]:focus,
+.formulario input[type="password"]:focus,
+.formulario textarea:focus {
+    background-color: #fff;
+    border-color: #0072c6;
+    outline: none;
+    box-shadow: 0 0 4px 1px #DDD inset
+}
+.formulario input[type="submit"] {
+    background-color: #0072c6;
+    border: none;
+    color: #FFF;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    padding: 10px;
+}
+.formulario input[type="submit"]:hover {
+    background-color: #009CE3
+}
+.formulario input[type="submit"]:active {
+    background-color: #00B0FF
+}
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: solid #BBB 1px;
+    box-shadow: 0 1px 5px #ccc;
+    color: #333;
+    font-size: 0.9em;
+}
+.tabla tr:hover {
+    cursor: pointer;
+    background: #fbf8e9;
+}
+.tabla td,
+.tabla th {
+    border-left: 1px solid #CCC;
+    border-top: 1px solid #CCC;
+    padding: 8px;
+    text-align: left;
+}
+.tabla td:first-child,
+.tabla th:first-child {
+    border-left: none;
+}
+.tabla td a {
+    color: #0378A6;
+    text-decoration: none;
+}
+.tabla td a.borrar {
+    color: #D91E1E;
+    font-size: 0.9em;
+}
+.tabla td a:hover {
+    text-decoration: underline;
+}
+.formulario {
+    border: 1px solid #BBB;
+    box-shadow: 0 1px 5px #ccc;
+    border-spacing: 0;
+    color: #333;
+    width: 100%;
+}
+.formulario td {
+    padding: 8px;
+    line-height: 50px;
+    border-bottom: 1px solid #BBB;
+}
+.formulario tr:last-child td {
+    border-bottom: none;
+}
+.formulario input[type=text],
+.formulario input[type=password],
+.formulario input[type=date] {
+    background-color: #F0F0F0;
+    border: 1px solid #BBB;
+    box-shadow: 0 1px 4px 1px #DDD inset;
+    padding: 6px 5px;
+}
+.formulario textarea {
+    background: #F1F1F1;
+    border: 1px solid #BFBFBF;
+    box-shadow: 0 1px 4px 1px #DDD inset;
+}
+.formulario input:focus,
+.formulario textarea:focus {
+    background-color: #FFF;
+    outline: none;
+    box-shadow: 0 0 4px 1px #DDD inset;
+}
+.formulario input:focus {
+    background-color: #FFF;
+    outline: none;
+    box-shadow: 0 0 4px 1px #DDD inset;
+}
+.left {
+    float: left
+}
+.bold {
+    font-weight: bold;
+    margin-right: 10px;
+}
+.fix {
+    clear: both
+}
+@media only screen and (min-width: 560px) {
+    #barra h1:after {
+        content: 'Federación Venezolana de Tenis de Mesa';
+    }
+    #barra h1 span {
+        display: none;
+    }
+    #barra .navegacion .usuario {
+        display: inline;
+        padding: 10px 0 10px 6px
+    }
+    #barra .navegacion .usuario img {
+        height: 32px;
+        margin: -4px 8px 0 4px;
+        vertical-align: middle;
+        width: 32px;
+    }
+    #principal .breadcrumb a span {
+        display: inline;
+    }
+    #principal .breadcrumb li:first-child a {
+        border-radius: 6px 0 0 6px;
+    }
+    #principal .breadcrumb .busqueda {
+        width: 140px;
+    }
+    #usuario {
+        background-color: #FFF;
+        border: 1px solid #DDD;
+        position: absolute;
+        right: 37px;
+        top: 42px;
+        width: 145px;
+        z-index: 999;
+    }
+    #usuario ul {
+        list-style: none
+    }
+    #usuario a {
+        text-decoration: none;
+    }
+    #usuario a:hover {
+        background-color: #EEE;
+        text-decoration: none;
+    }
+    .tabla {
+        font-size: 1em;
+    }
+    .formulario {
+        width: auto;
+    }
+}
+@media only screen and (min-width: 704px) {
+    #principal .breadcrumb .fecha {
+        background-color: #0378A6;
+        border-radius: 0 6px 6px 0;
+        color: #FFF;
+        display: inline-block;
+        float: right;
+        font-size: 1em;
+        padding: 7px 10px 7px 2px;
+        text-align: center;
+        width: 130px;
+    }
+    #principal .breadcrumb .fecha i {
+        margin: 0 10px;
+    }
+}
+@media only screen and (min-width: 960px) {
+    #aside {
+        display: block !important;
+        float: left;
+        height: 650px;
+        width: 250px;
+    }
+    #aside .navegacion .flecha {
+        background-image: url("../img/sidebar-menu-arrow.png");
+        display: block;
+        float: right;
+        height: 25px;
+        position: absolute;
+        right: 0px;
+        top: 9px;
+        width: 8px;
+    }
+    #aside #busqueda {
+        margin-top: 36px
+    }
+    #aside #busqueda input[type=text] {
+        width: 227px
+    }
+    #principal {
+        margin-left: 250px
+    }
+    #barra .navegacion #toggler {
+        display: none;
+    }
+    #usuario {
+        right: 0;
+        width: 148px;
+    }
+}

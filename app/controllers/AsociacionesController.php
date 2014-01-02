@@ -26,7 +26,7 @@ class AsociacionesController extends BaseController {
 		));
 	}
 
-	function postAgregar() {
+	function postAgregar($agregar = null) {
 		$validator = Validator::make(Input::all(), $this->rules);
 
 		if($validator->fails()) {
@@ -36,7 +36,10 @@ class AsociacionesController extends BaseController {
 		DB::table('asociaciones')->insert(Input::except('_token'));
 		Session::flash('message', 'Se ha agregado la asociación con éxito');
 
-		return Redirect::action('AsociacionesController@getIndex');
+		if($agregar)
+			return Redirect::action('AsociacionesController@getAgregar');
+		else
+			return Redirect::action('AsociacionesController@getIndex');
 	}
 
 	function getModificar($codigo) {
