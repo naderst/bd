@@ -1,24 +1,21 @@
 @extends('layouts.login')
 
 @section('content')
-	{{ Form::open(array('route' => 'login',  'method' => 'POST')) }}
-
-    <p>
-        {{ Form::label('username', 'Nombre de usuario') }}<br/>
-        {{ Form::text('username', Input::old('username')) }}
-    </p>
-
-    <p>
-        {{ Form::label('password', 'Contraseña') }}<br/>
-        {{ Form::password('password') }}
-    </p>
-
-    <p>
-    	{{ Form::checkbox('remember') }}
-    	{{ Form::label('remember', 'Recordar mi contraseña') }}
-    </p>
-
-    <p>{{ Form::submit('Iniciar sesión') }}</p>
-
-	{{ Form::close() }}
+    {{ Form::open(array('route' => 'login',  'method' => 'POST', 'id' => 'login')) }}
+    @if (Session::has('login_message'))
+        <div id="message" class="error">
+            {{ Session::get('login_message') }}
+        </div>
+    @endif
+    <div class="campo">
+        <i class="fa fa-user"></i>
+        {{ Form::text('username', 'Usuario') }}
+    </div>
+    <div class="campo">
+        <i class="fa fa-lock"></i>
+        <input type="password" name="password" value="contraseña">
+    </div>
+    <a id="iniciar-sesion" href="javascript:void(0)" class="boton">Iniciar sesión</a>
+    <div class="fix"></div>
+    {{ Form::close() }}	
 @stop
