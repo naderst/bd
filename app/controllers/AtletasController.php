@@ -29,7 +29,7 @@ class AtletasController extends BaseController {
 		));
 	}
 
-	function postAgregar() {
+	function postAgregar($agregar = null) {
 		$validator = Validator::make(Input::all(), $this->rules, $this->messages);
 
 		if($validator->fails()) {
@@ -39,7 +39,10 @@ class AtletasController extends BaseController {
 		Atleta::insert(Input::except('_token'));
 		Session::flash('message', 'Se ha agregado el atleta con éxito');
 
-		return Redirect::action('AtletasController@getIndex');
+		if($agregar)
+			return Redirect::action('AtletasController@getAgregar');
+		else
+			return Redirect::action('AtletasController@getIndex');
 	}
 
 	function getModificar($cedula) {
@@ -74,6 +77,25 @@ class AtletasController extends BaseController {
 		}
 
 		return Redirect::to(Session::get('page.url'));
+	}
+
+	function getBuscar() {
+		$q = Input::get('q');
+
+		if(trim($q) == '') {
+			Session::flash('message', 'No puede realizar una búsqueda vacía');
+			Session::flash('message_type', 'error');
+			return Redirect::to(Session::get('page.url'));
+		}
+
+		return View::make('atletas.index', array(
+			'q' => $q,
+			'atletas' => Atleta::where('nombres', 'ILIKE', '%'.$q.'%')
+								->orWhere('apellidos', 'ILIKE', '%'.$q.'%')
+								->orWhere('cedula', 'ILIKE', '%'.$q.'%')
+								->orderBy('apellidos', 'asc')
+								->paginate(5)
+		));
 	}
 }
 ?>

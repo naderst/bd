@@ -1,5 +1,36 @@
 @extends('layouts.default')
 
+@section('title')
+	Atletas
+@stop
+
+@section('description')
+	Aquí se listan todos los atletas registrados. Puedes crear nuevos, editar y borrar existentes.
+@stop
+
+@section('breadcrumb')
+	<li>
+		<a href="{{ Session::get('page.url') }}">
+			<i class="fa fa-arrow-circle-left"></i>
+			<span>Volver</span>
+		</a>
+	</li>
+    <li>
+        <a href="javascript:void(0)" onclick="javascript:frmSubmit('frmAsoc');">
+            <i class="fa fa-floppy-o"></i>
+            <span>Guardar</span>
+        </a>
+    </li>
+    @if(!isset($atletas))
+    <li>
+        <a href="javascript:void(0)" onclick="javascript:frmSubmitAdd('frmAsoc')">
+            <i class="fa fa-plus-square"></i>
+            <span>Guardar y agregar otro</span>
+        </a>
+    </li>
+    @endif
+@stop
+
 @section('content')
 	@if ($errors->any())
 	<div id="message" class="error">
@@ -14,37 +45,59 @@
 			'action' => array(
 				'AtletasController@getModificar',
 				$atletas->cedula
-			))
+			),
+			'id' => 'frmAsoc')
 		)}}
 	@else
-		{{ Form::open(array('action' => 'AtletasController@getAgregar')) }}
+		{{ Form::open(array('action' => 'AtletasController@getAgregar', 'id' => 'frmAsoc')) }}
 	@endif
 
-	{{ Form::label('cedula', 'Cédula') }}
-	@if (isset($atletas))
-		{{ Form::text('cedula', null, array('readonly' => 'readonly')) }}
-	@else
-		{{ Form::text('cedula') }}
-	@endif
-	<br>
-	{{ Form::label('nombres', 'Nombres') }}
-	{{ Form::text('nombres') }}
-	<br>
-	{{ Form::label('apellidos', 'Apellidos') }}
-	{{ Form::text('apellidos') }}
-	<br>
-	{{ Form::label('fecha_nacimiento', 'Fecha de nacimiento (d/m/a)') }}
-	{{ Form::text('fecha_nacimiento') }}
-	<br>
-	{{ Form::label('sexo', 'Sexo') }}
-	{{ Form::radio('sexo', 'M', true) }} Masculino
-	{{ Form::radio('sexo', 'F') }} Femenino
-	<br>
-	{{ Form::label('codigo_club', 'Club') }}
-	{{ Form::select('codigo_club', $clubes) }}
-	<br><br>
-	{{ Form::submit('Guardar') }}
-	<input type="button" onclick="javascript:document.location='{{ URL::to(Session::get('page.url')) }}'" value="Cancelar">
+	<table class="formulario">
+	    <tbody>
+	        <tr>
+	            <td>Cédula:</td>
+	            <td>
+					@if (isset($atletas))
+						{{ Form::text('cedula', null, array('readonly' => 'readonly')) }}
+					@else
+						{{ Form::text('cedula') }}
+					@endif
+	            </td>
+	        </tr>
+	        <tr>
+	            <td>Nombres:</td>
+	            <td>
+	                {{ Form::text('nombres') }}
+	            </td>
+	        </tr>
+	        <tr>
+	        	<td>Apellidos:</td>
+	        	<td>
+	        		{{ Form::text('apellidos') }}
+	        	</td>
+	        </tr>
+	        <tr>
+	        	<td>Fecha de nacimiento (d/m/a):</td>
+	        	<td>
+	        		{{ Form::text('fecha_nacimiento') }}
+	        	</td>
+	        </tr>
+	        <tr>
+	        	<td>Sexo:</td>
+	        	<td>
+	        		{{ Form::radio('sexo', 'M', true) }} Masculino
+					{{ Form::radio('sexo', 'F') }} Femenino
+	        	</td>
+	        </tr>
+	        <tr>
+	        	<td>Club:</td>
+	        	<td>
+	        		{{ Form::select('codigo_club', $clubes) }}
+	        	</td>
+	        </tr>
+	    </tbody>
 
+	</table>
+	
 	{{ Form::close() }}
 @stop
