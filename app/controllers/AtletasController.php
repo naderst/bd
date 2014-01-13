@@ -19,7 +19,7 @@ class AtletasController extends BaseController {
 
 	function getIndex() {
 		return View::make('atletas.index', array(
-			'atletas' => Atleta::orderBy('apellidos', 'asc')->paginate(5)
+			'atletas' => Atleta::orderBy('apellidos', 'asc')->paginate(10)
 		));
 	}
 
@@ -94,7 +94,7 @@ class AtletasController extends BaseController {
 								->orWhere('apellidos', 'ILIKE', '%'.$q.'%')
 								->orWhere('cedula', 'ILIKE', '%'.$q.'%')
 								->orderBy('apellidos', 'asc')
-								->paginate(5)
+								->paginate(10)
 		));
 	}
 }

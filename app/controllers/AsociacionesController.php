@@ -16,7 +16,7 @@ class AsociacionesController extends BaseController {
 
 	function getIndex() {
 		return View::make('asociaciones.index', array(
-			'asociaciones' => Asociacion::orderBy('codigo', 'desc')->paginate(5)
+			'asociaciones' => Asociacion::orderBy('codigo', 'desc')->paginate(10)
 		));
 	}
 
@@ -85,7 +85,7 @@ class AsociacionesController extends BaseController {
 
 		return View::make('asociaciones.index', array(
 			'q' => $q,
-			'asociaciones' => Asociacion::where('nombre', 'ILIKE', '%'.$q.'%')->orderBy('codigo', 'desc')->paginate(5)
+			'asociaciones' => Asociacion::where('nombre', 'ILIKE', '%'.$q.'%')->orderBy('codigo', 'desc')->paginate(10)
 		));
 	}
 }

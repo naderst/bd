@@ -17,7 +17,7 @@ class ClubesController extends BaseController {
 
 	function getIndex() {
 		return View::make('clubes.index', array(
-			'clubes' => Club::orderBy('codigo', 'desc')->paginate(5)
+			'clubes' => Club::orderBy('codigo', 'desc')->paginate(10)
 		));
 	}
 
@@ -85,7 +85,7 @@ class ClubesController extends BaseController {
 
 		return View::make('clubes.index', array(
 			'q' => $q,
-			'clubes' => Club::where('nombre', 'ILIKE', '%'.$q.'%')->orderBy('codigo', 'desc')->paginate(5)
+			'clubes' => Club::where('nombre', 'ILIKE', '%'.$q.'%')->orderBy('codigo', 'desc')->paginate(10)
 		));
 	}
 }
