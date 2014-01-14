@@ -9,7 +9,7 @@ class AtletasController extends BaseController {
 
 	private function getClubes() {
 		$clubes = Club::all();
-		$a = array();
+		$a = array('' => 'Independiente');
 		
 		foreach($clubes as $e)
 			$a[$e->codigo] = $e->nombre;
@@ -36,7 +36,12 @@ class AtletasController extends BaseController {
 			return Redirect::action('AtletasController@getAgregar')->withErrors($validator)->withInput();
 		}
 
-		Atleta::insert(Input::except('_token'));
+		$input = Input::except('_token');
+
+		if($input['codigo_club'] == '')
+			$input['codigo_club'] = null;
+
+		Atleta::insert($input);
 		Session::flash('message', 'Se ha agregado el atleta con éxito');
 
 		if($agregar)
@@ -61,7 +66,12 @@ class AtletasController extends BaseController {
 			return Redirect::action('AtletasController@getModificar', $cedula)->withErrors($validator)->withInput();
 		}
 
-		Atleta::where('cedula', $cedula)->update(Input::except('_token', 'cedula'));
+		$input = Input::except('_token', 'cedula');
+
+		if($input['codigo_club'] == '')
+			$input['codigo_club'] = null;
+
+		Atleta::where('cedula', $cedula)->update($input);
 		Session::flash('message', 'Se ha actualizado el atleta con éxito');
 
 		return Redirect::to(Session::get('page.url'));

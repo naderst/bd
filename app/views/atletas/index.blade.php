@@ -55,7 +55,7 @@
 			    	<td>{{ $e->apellidos }}</td>
 			    	<td>{{ $e->fecha_nacimiento }}</td>
 			    	<td>{{ $e->sexo=='M'?'Masculino':'Femenino' }}</td>
-			    	<td>{{ $e->club->nombre }}</td>
+			    	<td>{{ $e->club?$e->club->nombre:'Independiente' }}</td>
 			    	<td>
 				            <a class="borrar" href="{{ URL::action('AtletasController@getEliminar', array($e->cedula)) }}" data-msg="{{ $e->nombres }} {{ $e->apellidos }}">
 				                <i class="fa fa-times"></i>Borrar</a>
