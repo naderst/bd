@@ -4,8 +4,11 @@ class BaseController extends Controller {
 	protected $messages = array(
 		'required' => 'El campo <b>:attribute</b> es obligatorio',
 		'min' => 'El campo <b>:attribute</b> debe tener mínimo :min caracteres',
+		'max' => 'El campo <b>:attribute</b> debe tener máximo :max caracteres',
 		'fecha_nacimiento.date_format' => 'La <b>fecha de nacimiento</b> debe tener el formato d/m/a',
-		'cedula.unique' => 'La <b>cédula</b> ya existe'
+		'cedula.unique' => 'La <b>cédula</b> ya existe',
+		'fecha_inicio.date_format' => 'La <b>fecha de incio</b> debe tener el formato d/m/a',
+		'fecha_fin.date_format' => 'La <b>fecha de fin</b> debe tener el formato d/m/a'		
 	);
 	
 	function __construct() {

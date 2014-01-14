@@ -78,7 +78,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)">
+                        <a href="{{ URL::action('TorneosController@getIndex') }}"@if (Request::segment(1) == 'torneos') class="seleccionado"@endif>
                             <i class="fa fa-trophy"></i>Torneos</a>
                     </li>
                     <li>
