@@ -16,14 +16,14 @@
 		</a>
 	</li>
     <li>
-        <a href="javascript:void(0)" onclick="javascript:frmSubmit('frmAsoc');">
+        <a href="javascript:void(0)" class="save">
             <i class="fa fa-floppy-o"></i>
             <span>Guardar</span>
         </a>
     </li>
     @if(!isset($atletas))
     <li>
-        <a href="javascript:void(0)" onclick="javascript:frmSubmitAdd('frmAsoc')">
+        <a href="javascript:void(0)" class="saveandreturn">
             <i class="fa fa-plus-square"></i>
             <span>Guardar y agregar otro</span>
         </a>

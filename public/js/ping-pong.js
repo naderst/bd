@@ -24,15 +24,11 @@ $(document).ready(function () {
     $('.borrar').click(function() {
         return confirm('¿Está seguro que desea eliminar el elemento "' + $('.borrar').attr('data-msg') + '"?');
     });
+    $('.save').click(function() {
+        $('#frmAsoc').submit();
+    });
+    $('.saveandreturn').click(function() {
+        $('#frmAsoc').attr('action', $('#frmAsoc').attr('action') + '/agregar');
+        $('#frmAsoc').submit();
+    });
 });
-
-function frmSubmit(id) {
-    $('#' + id).submit();
-}
-
-function frmSubmitAdd(id) {
-    var id = '#' + id;
-
-    $(id).attr('action', $(id).attr('action') + '/agregar');
-    $(id).submit();
-}
