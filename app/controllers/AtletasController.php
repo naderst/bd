@@ -17,6 +17,10 @@ class AtletasController extends BaseController {
 		return $a;
 	}
 
+	function getJson($codigo_club) {
+		return Atleta::orderBy('apellidos', 'asc')->where('codigo_club', '=', $codigo_club)->get(array('atletas.nombres', 'atletas.apellidos'));
+	}
+
 	function getIndex() {
 		return View::make('atletas.index', array(
 			'atletas' => Atleta::orderBy('apellidos', 'asc')->paginate(10)
