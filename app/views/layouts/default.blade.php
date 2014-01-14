@@ -8,6 +8,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
     {{ HTML::style('css/ping-pong.css') }}
     {{ HTML::style('css/font-awesome.min.css') }}
+    @yield('css')
 </head>
 
 <body>
@@ -117,6 +118,7 @@
     </div>
     {{ HTML::script('js/jquery-2.0.3.min.js') }}
     {{ HTML::script('js/ping-pong.js') }}
+    @yield('javascript')
 </body>
 
 </html>

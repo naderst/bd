@@ -1,5 +1,9 @@
 @extends('layouts.default')
 
+@section('css')
+    {{ HTML::style('css/jquery.datetimepicker.css') }}
+@stop
+
 @section('title')
 	Atletas
 @stop
@@ -77,8 +81,8 @@
 	        	</td>
 	        </tr>
 	        <tr>
-	        	<td>Fecha de nacimiento (d/m/a):</td>
-	        	<td>
+	        	<td>Fecha de nacimiento:</td>
+	        	<td class="fecha">
 	        		{{ Form::text('fecha_nacimiento') }}
 	        	</td>
 	        </tr>
@@ -100,4 +104,8 @@
 	</table>
 	
 	{{ Form::close() }}
+@stop
+
+@section('javascript')
+    {{ HTML::script('js/jquery.datetimepicker.js') }}
 @stop

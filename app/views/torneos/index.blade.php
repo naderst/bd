@@ -25,7 +25,7 @@
 		</li>
 	@endif
     <li>
-        <a href="javascript:void('modificarEsto');">
+        <a href="{{ URL::action('TorneosController@getAgregar') }}">
             <i class="fa fa-plus"></i>Nuevo torneo</a>
     </li>
 @stop

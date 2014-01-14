@@ -5,6 +5,8 @@ class BaseController extends Controller {
 		'required' => 'El campo <b>:attribute</b> es obligatorio',
 		'min' => 'El campo <b>:attribute</b> debe tener mínimo :min caracteres',
 		'max' => 'El campo <b>:attribute</b> debe tener máximo :max caracteres',
+		'integer' => 'El campo <b>:attribute</b> debe ser entero',
+		'base_dos' => 'El campo <b>:attribute</b> debe ser potencia de dos y menor o igual a 64',
 		'fecha_nacimiento.date_format' => 'La <b>fecha de nacimiento</b> debe tener el formato d/m/a',
 		'cedula.unique' => 'La <b>cédula</b> ya existe',
 		'fecha_inicio.date_format' => 'La <b>fecha de incio</b> debe tener el formato d/m/a',

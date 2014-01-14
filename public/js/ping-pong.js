@@ -21,14 +21,20 @@ $(document).ready(function () {
         }
         $('#usuario').slideToggle('fast');
     });
-    $('.borrar').click(function() {
+    $('.borrar').click(function () {
         return confirm('¿Está seguro que desea eliminar el elemento "' + $('.borrar').attr('data-msg') + '"?');
     });
-    $('.save').click(function() {
+    $('.save').click(function () {
         $('#frmAsoc').submit();
     });
-    $('.saveandreturn').click(function() {
+    $('.saveandreturn').click(function () {
         $('#frmAsoc').attr('action', $('#frmAsoc').attr('action') + '/agregar');
         $('#frmAsoc').submit();
+    });
+
+    $('.fecha input[type=text]').datetimepicker({
+        lang: 'es',
+        timepicker: false,
+        format: 'd/m/Y',
     });
 });
