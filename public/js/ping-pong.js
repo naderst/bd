@@ -21,11 +21,10 @@ $(document).ready(function () {
         }
         $('#usuario').slideToggle('fast');
     });
+    $('.borrar').click(function() {
+        return confirm('¿Está seguro que desea eliminar el elemento "' + $('.borrar').attr('data-msg') + '"?');
+    });
 });
-
-function borrarItem(msg) {
-    return confirm('¿Está seguro que desea eliminar el elemento "' + msg + '"?');
-}
 
 function frmSubmit(id) {
     $('#' + id).submit();

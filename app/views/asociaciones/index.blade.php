@@ -51,7 +51,7 @@
 			        </td>
 			        <td>{{ $e->estado }}</td>
 			        <td>
-			            <a class="borrar" href="{{ URL::action('AsociacionesController@getEliminar', array($e->codigo)) }}" onclick="javascript:return borrarItem('{{ $e->nombre }}');">
+			            <a class="borrar" href="{{ URL::action('AsociacionesController@getEliminar', array($e->codigo)) }}" data-msg="{{ $e->nombre }}">
 			                <i class="fa fa-times"></i>Borrar</a>
 			        </td>
 			    </tr>

@@ -49,7 +49,7 @@
 			    	<td><a href="{{ URL::action('ClubesController@getModificar', array($e->codigo)) }}">{{ $e->nombre }}</a></td>
 			    	<td>{{ $e->asociacion->nombre }}</td>
 			    	<td>
-			            <a class="borrar" href="{{ URL::action('ClubesController@getEliminar', array($e->codigo)) }}" onclick="javascript:return borrarItem('{{ $e->nombre }}');">
+			            <a class="borrar" href="{{ URL::action('ClubesController@getEliminar', array($e->codigo)) }}" data-msg="{{ $e->nombre }}">
 			                <i class="fa fa-times"></i>Borrar</a>
 			    	</td>
 			    </tr>

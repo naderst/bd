@@ -57,7 +57,7 @@
 			    	<td>{{ $e->sexo=='M'?'Masculino':'Femenino' }}</td>
 			    	<td>{{ $e->club->nombre }}</td>
 			    	<td>
-				            <a class="borrar" href="{{ URL::action('AtletasController@getEliminar', array($e->cedula)) }}" onclick="javascript:return borrarItem('{{ $e->nombres }} {{ $e->apellidos }}');">
+				            <a class="borrar" href="{{ URL::action('AtletasController@getEliminar', array($e->cedula)) }}" data-msg="{{ $e->nombres }} {{ $e->apellidos }}">
 				                <i class="fa fa-times"></i>Borrar</a>
 			    	</td>
 			    </tr>
