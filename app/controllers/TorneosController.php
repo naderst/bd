@@ -6,7 +6,6 @@ class TorneosController extends BaseController {
 		));
 	}
 	
-	
     function getBuscar() {
 		$q = Input::get('q');
 
@@ -19,7 +18,7 @@ class TorneosController extends BaseController {
 		return View::make('torneos.index', array(
 			'q' => $q,
 			'torneos' => Torneo::where('descripcion', 'ILIKE', '%'.$q.'%')
-								->orWhere('fecha_inicio', '=', '%'.(strtotime($q)?strtotime($q):'1800-1-1').'%')
+								->orWhere('fecha_inicio', '=', ((strtotime(str_replace('/', '-', $q)) === FALSE)?'01/01/1800':$q))
 								->orderBy('fecha_inicio', 'desc')
 								->paginate(5)
 		));
