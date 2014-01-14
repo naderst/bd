@@ -15,6 +15,10 @@ class ClubesController extends BaseController {
 		return $a;
 	}
 
+	function getJson() {
+		return Club::orderBy('codigo', 'desc')->get(array('clubes.codigo', 'clubes.nombre'));
+	}
+
 	function getIndex() {
 		return View::make('clubes.index', array(
 			'clubes' => Club::orderBy('codigo', 'desc')->paginate(10)
