@@ -9,7 +9,7 @@
 */
 
 var cantidadParticipantes = 0;
-var clubesHTML = '';
+var clubesHTML = '<option value="">Independiente</option>';
 
 function cantidadAgregar(cantidadActual) {
     if (cantidadActual == 64)
