@@ -267,8 +267,7 @@ body {
     color: #e74c3c;
 }
 .formulario td {
-    padding: 0 8px;
-    line-height: 50px;
+    padding: 4px 8px;
     border-bottom: 1px solid #BBB;
     width: 100%;
     display: block;
@@ -404,10 +403,6 @@ body {
     .formulario.right {
         margin-left: 20px;
     }
-    .formulario td {
-        width: auto;
-        display: table-cell;
-    }
 }
 @media only screen and (min-width: 780px) {
     #principal .breadcrumb .fecha {
@@ -464,5 +459,13 @@ body {
     .contenedor {
         width: 70%;
         float: right;
+    }
+}
+@media only screen and (min-width: 1580px) {
+    .formulario td {
+        padding: 0 8px;
+        width: auto;
+        display: table-cell;
+        line-height: 50px;
     }
 }
