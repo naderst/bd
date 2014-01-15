@@ -7,6 +7,7 @@
     Version: 1.0
 */
 
+
 $(document).ready(function () {
     $('#toggler').click(function () {
         $('#aside').slideToggle('fast');

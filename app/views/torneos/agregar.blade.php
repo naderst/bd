@@ -51,7 +51,7 @@
 
     {{ Form::open(array('action' => 'TorneosController@getAgregar', 'id' => 'frmAsoc')) }}
 
-	<table class="formulario">
+	<table class="formulario principal left ">
 	    <tbody>
 	        <tr>
 	            <td>Descripción:</td>
@@ -77,18 +77,23 @@
 	                {{ Form::select('tipo', $tipos) }}
 	            </td>
 	        </tr>
+	        <tr>
+	            <td class="boton" colspan="2"><a id="agregar-participante" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar participantes</a></td>
+	        </tr>
             <tr>
-	            <td>Cantidad:</td>
-	            <td>
-	                {{ Form::text('cantidad') }}
-	            </td>
+	            <td class="boton" colspan="2"><a id="eliminar-participante" class="eliminar" href="javascript:void(0)"><i class="fa fa-times"></i>Eliminar participantes</a></td>
 	        </tr>
 	    </tbody>
-
 	</table>
+	
+	<section class="contenedor"></section>
+	
+	{{ Form::hidden('cantidad', null, array('id' => 'cantidad')) }}
 	{{ Form::close() }}
 @stop
 
 @section('javascript')
+    <script>rutaClubes = "{{ URL::action('ClubesController@getJson') }}"; rutaAtletas = "{{ URL::action('AtletasController@getJson') }}";</script>
     {{ HTML::script('js/jquery.datetimepicker.js') }}
+    {{ HTML::script('js/torneos.js') }}
 @stop

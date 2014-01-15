@@ -11,9 +11,8 @@ class TorneosController extends BaseController {
 	function __construct() {	
         Validator::extend('base_dos', function($attribute, $value, $parameters) {
             if ($value <= 64 && ($value & ($value - 1)) == 0)
-                return true;
-            else
-                return false;
+                return true;            
+            return false;
         });
     }
 	
