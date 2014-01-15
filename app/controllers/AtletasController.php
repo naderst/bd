@@ -17,7 +17,7 @@ class AtletasController extends BaseController {
 		return $a;
 	}
 
-	function getJson($codigo_club) {
+	function getJson($codigo_club = null) {
 		return Atleta::orderBy('apellidos', 'asc')->where('codigo_club', '=', $codigo_club)->get(array('atletas.cedula', 'atletas.nombres', 'atletas.apellidos'));
 	}
 
