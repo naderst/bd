@@ -20,15 +20,15 @@
 		</a>
 	</li>
     <li>
-        <a href="javascript:void(0)">
-            <i class="fa fa-bolt"></i>
-            <span>Modo en vivo</span>
-        </a>
-    </li>
-    <li>
         <a class="save" href="javascript:void(0)" >
             <i class="fa fa-floppy-o"></i>
             <span>Guardar</span>
+        </a>
+    </li>
+    <li>
+        <a href="javascript:void(0)">
+            <i class="fa fa-bolt"></i>
+            <span>Guardar y agregar enfrentamiento</span>
         </a>
     </li>
     <li>

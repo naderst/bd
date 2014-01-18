@@ -363,9 +363,6 @@ body {
         vertical-align: middle;
         width: 32px;
     }
-    #principal .breadcrumb a span {
-        display: inline;
-    }
     #principal .breadcrumb li:first-child a {
         border-radius: 6px 0 0 6px;
     }
@@ -402,22 +399,6 @@ body {
     }
     .formulario.right {
         margin-left: 20px;
-    }
-}
-@media only screen and (min-width: 780px) {
-    #principal .breadcrumb .fecha {
-        background-color: #0378A6;
-        border-radius: 0 6px 6px 0;
-        color: #FFF;
-        display: inline-block;
-        float: right;
-        font-size: 1em;
-        padding: 7px 10px 7px 2px;
-        text-align: center;
-        width: 130px;
-    }
-    #principal .breadcrumb .fecha i {
-        margin: 0 10px;
     }
 }
 @media only screen and (min-width: 960px) {
@@ -459,6 +440,27 @@ body {
     .contenedor {
         width: 70%;
         float: right;
+    }
+}
+@media only screen and (min-width: 1045px) {
+    #principal .breadcrumb a span {
+        display: inline;
+    }
+}
+@media only screen and (min-width: 1200px) {
+    #principal .breadcrumb .fecha {
+        background-color: #0378A6;
+        border-radius: 0 6px 6px 0;
+        color: #FFF;
+        display: inline-block;
+        float: right;
+        font-size: 1em;
+        padding: 7px 10px 7px 2px;
+        text-align: center;
+        width: 130px;
+    }
+    #principal .breadcrumb .fecha i {
+        margin: 0 10px;
     }
 }
 @media only screen and (min-width: 1580px) {

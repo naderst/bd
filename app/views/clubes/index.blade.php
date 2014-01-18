@@ -26,7 +26,7 @@
 	@endif
     <li>
         <a href="{{ URL::action('ClubesController@getAgregar') }}">
-            <i class="fa fa-plus"></i>Nuevo club</a>
+            <i class="fa fa-plus"></i><span>Nuevo club</span></a>
     </li>
 @stop
 
