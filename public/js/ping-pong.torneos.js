@@ -74,15 +74,21 @@ function cargarAtletas(clubID, clubIndice) {
     });
 }
 
+function actualizarCantidad() {
+    $('#cantidad').val(cantidadParticipantes);
+}
+
 $(document).ready(function () {
     cargarClubes();
 
     $('#agregar-participante').click(function () {
         agregarParticipantes();
+        actualizarCantidad();
     });
 
     $('#eliminar-participante').click(function () {
         eliminarParticipantes();
+        actualizarCantidad();
     });
 
     $(document).on('change', '.formulario .club', function () {

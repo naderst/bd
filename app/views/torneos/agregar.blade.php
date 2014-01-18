@@ -95,5 +95,5 @@
 @section('javascript')
     <script>rutaClubes = "{{ URL::action('ClubesController@getJson') }}"; rutaAtletas = "{{ URL::action('AtletasController@getJson') }}";</script>
     {{ HTML::script('js/jquery.datetimepicker.js') }}
-    {{ HTML::script('js/torneos.js') }}
+    {{ HTML::script('js/ping-pong.torneos.js') }}
 @stop

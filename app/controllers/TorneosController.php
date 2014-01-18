@@ -40,7 +40,16 @@ class TorneosController extends BaseController {
 			return Redirect::action('TorneosController@getAgregar')->withErrors($validator)->withInput();
 		}
 
-		DB::table('torneos')->insert(Input::except('_token'));
+		DB::table('torneos')->insert(Input::only('descripcion', 'fecha_inicio', 'fecha_fin', 'tipo', 'cantidad'));
+		$torneo = DB::table('torneos')->orderBy('codigo', 'desc')->first();
+				
+        for ($i = 1; $i <= Input::get('cantidad'); ++$i) {
+            DB::table('participantes')->insert(array(
+                'cedula_atleta' => Input::get('atleta-'.$i),
+                'codigo_torneo' => $torneo->codigo
+            ));
+        }
+        
 		Session::flash('message', 'Se ha agregado el torneo con éxito');
 
 		if ($agregar)
