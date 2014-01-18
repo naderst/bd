@@ -57,6 +57,18 @@ class TorneosController extends BaseController {
 		else
 			return Redirect::action('TorneosController@getIndex');
 	}
+	
+    function getEliminar($codigo) {
+		try {
+			DB::table('torneos')->where('codigo', $codigo)->delete();
+			Session::flash('message', 'Se ha eliminado el torneo con éxito');
+		} catch(Exception $exception) {
+			Session::flash('message', 'Error eliminando el torneo, el servidor dijo:<br>'.$exception->getMessage());
+			Session::flash('message_type', 'error');
+		}
+	
+		return Redirect::to(Session::get('page.url'));
+	}
 
 	
     function getBuscar() {

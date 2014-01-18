@@ -58,7 +58,7 @@
 			        <td>{{ $e->tipo}}</td>
 			        <td>{{ $e->cantidad }}</td>
 			        <td>
-			            <a class="borrar" href="javascript:void('modificarEsto');" data-msg="{{ $e->descripcion }}">
+			            <a class="borrar" href="{{ URL::action('TorneosController@getEliminar', array($e->codigo)) }}" data-msg="{{ $e->descripcion }}">
 			                <i class="fa fa-times"></i>Borrar</a>
 			        </td>
 			    </tr>
