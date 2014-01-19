@@ -50,6 +50,8 @@ class TorneosController extends BaseController {
             ));
         }
         
+        DB::select('SELECT f_generar_grupos('.$torneo->codigo.');');
+        
 		Session::flash('message', 'Se ha agregado el torneo con éxito');
 
 		if ($agregar)

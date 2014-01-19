@@ -25,6 +25,10 @@
 		</li>
 	@endif
     <li>
+        <a href="javascript:void(0)">
+            <i class="fa fa-sitemap"></i><span>Ver árboles</span></a>
+    </li>
+    <li>
         <a href="{{ URL::action('TorneosController@getAgregar') }}">
             <i class="fa fa-plus"></i><span>Nuevo torneo</span></a>
     </li>
@@ -51,7 +55,7 @@
 			    @foreach ($torneos as $e)
 			    <tr>
 			        <td>
-			            <a href="javascript:void('modificarEsto');">{{ $e->descripcion }}</a>
+			            <a href="{{ URL::action('EnfrentamientosController@getAgregar', array($e->codigo)) }}">{{ $e->descripcion }}</a>
 			        </td>
 			        <td>{{ $e->fecha_inicio }}</td>
 			        <td>{{ $e->fecha_fin }}</td>

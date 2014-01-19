@@ -28,7 +28,7 @@
     <li>
         <a href="javascript:void(0)">
             <i class="fa fa-bolt"></i>
-            <span>Guardar y agregar enfrentamiento</span>
+            <span>Guardar y agregar enfrentamientos</span>
         </a>
     </li>
     <li>
