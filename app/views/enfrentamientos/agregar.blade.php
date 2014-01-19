@@ -41,12 +41,12 @@
 
     {{ Form::open(array('action' => 'EnfrentamientosController@getAgregar', 'id' => 'frmAsoc')) }}    
     
-    @if ($cantidad >= 8)
-        @foreach ($fases as $fase)
+    @if ($torneo->cantidad >= 8)
+        @foreach ($fases as $f=>$fase)
             <div class="separador">{{ $fase['nombre'] }}</div>  
-            @foreach ($fase['grupos'] as $key=>$grupo)
-                <div class="grupo">{{ $key }}</div>
-                @foreach ($grupo as $enfrentamiento)
+            @foreach ($fase['grupos'] as $g=>$grupo)
+                <div class="grupo">{{ $g }}</div>
+                @foreach ($grupo as $e=>$enfrentamiento)
                 <table class="formulario principal left ">
                     <tbody>
                         <tr>
@@ -59,21 +59,26 @@
                         <tr>
                             <td>Fecha:</td>
                             <td class="fecha">
-                                {{ Form::text('fecha') }}
+                                {{ Form::text($g.$e.'-fecha') }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="boton" colspan="2"><a id="agregar-set" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar set</a></td>
+                            <td class="boton" colspan="2"><a id="agregar-set" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar sets</a></td>
                         </tr>
                     </tbody>
                 </table>
+                {{ Form::hidden($g.$e.'-cedula_participante_1', $enfrentamiento[0]['cedula']) }}
+                {{ Form::hidden($g.$e.'-cedula_participante_2', $enfrentamiento[1]['cedula']) }}
+                {{ Form::hidden($g.$e.'-codigo_torneo', $torneo->codigo) }}
+                {{ Form::hidden($g.$e.'-fase', $f) }}
+                {{ Form::hidden($g.$e.'-sets_jugados', null) }}
                 @endforeach
             @endforeach            
         @endforeach    
     @else
-        @foreach ($fases as $fase)        
+        @foreach ($fases as $f=>$fase)        
             <div class="separador">{{ $fase['nombre'] }}</div>            
-            @foreach ($fase['enfrentamientos'] as $enfrentamiento)
+            @foreach ($fase['enfrentamientos'] as $e=>$enfrentamiento)
             <table class="formulario principal left ">
                 <tbody>
                     <tr>
@@ -86,22 +91,23 @@
                     <tr>
                         <td>Fecha:</td>
                         <td class="fecha">
-                            {{ Form::text('fecha') }}
+                            {{ Form::text($e.'-fecha') }}
                         </td>
                     </tr>
                     <tr>
-                        <td class="boton" colspan="2"><a id="agregar-set" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar set</a></td>
+                        <td class="boton" colspan="2"><a id="agregar-set" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar sets</a></td>
                     </tr>
                 </tbody>
             </table>
+            {{ Form::hidden($e.'-cedula_participante_1', $enfrentamiento[0]['cedula']) }}
+            {{ Form::hidden($e.'-cedula_participante_2', $enfrentamiento[1]['cedula']) }}
+            {{ Form::hidden($e.'-codigo_torneo', $torneo->codigo) }}
+            {{ Form::hidden($e.'-fase', $f) }}
+            {{ Form::hidden($e.'-sets_jugados', null) }}
             @endforeach            
         @endforeach
     @endif
-    
 
-    
-
-	
 	{{ Form::close() }}
 @stop
 

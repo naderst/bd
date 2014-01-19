@@ -52,7 +52,7 @@ class EnfrentamientosController extends BaseController {
                         'grupos' => $grupos
                     )
                 ),
-                'cantidad' => $torneo->cantidad
+                'torneo' => $torneo
             );
         } else {
             $participantes = DB::table('participantes')->where('codigo_torneo', $codigo)->get();
@@ -72,7 +72,7 @@ class EnfrentamientosController extends BaseController {
                         'enfrentamientos' => $enfrentamientos
                     )
                 ),
-                'cantidad' => $torneo->cantidad                
+                'torneo' => $torneo                
             );
         }
                 
