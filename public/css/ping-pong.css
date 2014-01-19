@@ -297,6 +297,8 @@ body {
 }
 .formulario select {
     width: 150px;
+    font-size: 1em;
+    margin: 3px;
 }
 .tabla {
     width: 100%;
@@ -351,6 +353,7 @@ body {
     width: 100%;
     font-size: 1.7em;
     margin: 20px 0 10px;
+    display: table;
 }
 .grupo {
     font-weight: 700;

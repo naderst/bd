@@ -79,9 +79,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ URL::action('TorneosController@getIndex') }}"@if (Request::segment(1) == 'torneos') class="seleccionado"@endif>
+                        <a href="{{ URL::action('TorneosController@getIndex') }}"@if (Request::segment(1) == 'torneos' or Request::segment(1) == 'enfrentamientos') class="seleccionado"@endif>
                             <i class="fa fa-trophy"></i>Torneos
-                            @if (Request::segment(1) == 'torneos')
+                            @if (Request::segment(1) == 'torneos' or Request::segment(1) == 'enfrentamientos')
                             <span class="flecha"></span>
                             @endif
                         </a>

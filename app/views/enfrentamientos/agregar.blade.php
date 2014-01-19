@@ -43,23 +43,64 @@
     
     @if ($torneo->cantidad >= 8)
         @foreach ($fases as $f=>$fase)
-            <div class="separador">{{ $fase['nombre'] }}</div>  
-            @foreach ($fase['grupos'] as $g=>$grupo)
-                <div class="grupo">{{ $g }}</div>
-                @foreach ($grupo as $e=>$enfrentamiento)
+            <div class="separador">{{ $fase['nombre'] }}</div>
+            
+            @if ($f == 0)
+                @foreach ($fase['grupos'] as $g=>$grupo)
+                    <div class="grupo">{{ $g }}</div>
+                    @foreach ($grupo as $e=>$enfrentamiento)
+                    <table class="formulario principal left ">
+                        <tbody>
+                            <tr>
+                                <td class="center" colspan="2">
+                                    {{ $enfrentamiento[0]->nombres }} {{ $enfrentamiento[0]->apellidos }}
+                                    <b>vs</b><br>
+                                    {{ $enfrentamiento[1]->nombres }} {{ $enfrentamiento[1]->apellidos }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Fecha:</td>
+                                <td class="fecha">
+                                    {{ Form::text($f.'-'.$g.'-'.$e.'-fecha') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="boton" colspan="2"><a id="agregar-set" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar sets</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {{ Form::hidden($f.'-'.$g.'-'.$e.'-cedula_participante_1', $enfrentamiento[0]->cedula) }}
+                    {{ Form::hidden($f.'-'.$g.'-'.$e.'-cedula_participante_2', $enfrentamiento[1]->cedula) }}
+                    {{ Form::hidden($f.'-'.$g.'-'.$e.'-codigo_torneo', $torneo->codigo) }}
+                    {{ Form::hidden($f.'-'.$g.'-'.$e.'-fase', $f) }}
+                    {{ Form::hidden($f.'-'.$g.'-'.$e.'-sets_jugados', null) }}
+                    @endforeach
+                @endforeach
+            @else
+                @foreach ($fase['enfrentamientos'] as $e=>$enfrentamiento)
                 <table class="formulario principal left ">
                     <tbody>
                         <tr>
                             <td class="center" colspan="2">
-                                {{ $enfrentamiento[0]['nombres'] }} {{ $enfrentamiento[0]['apellidos'] }}
+                                <select name="{{$f.'-'.$e.'-cedula_participante_1'}}" id="" disabled>
+                                    <option value="-1" selected>Sin determinar</option>
+                                    @foreach ($enfrentamiento as $participante)
+                                        <option value="{{$participante->cedula}}">{{$participante->nombres}} {{$participante->apellidos}}</option>
+                                    @endforeach
+                                </select>
                                 <b>vs</b><br>
-                                {{ $enfrentamiento[1]['nombres'] }} {{ $enfrentamiento[1]['apellidos'] }}
+                                 <select name="{{$f.'-'.$e.'-cedula_participante_1'}}" id="" disabled>
+                                    <option value="-1" selected>Sin determinar</option>
+                                    @foreach ($enfrentamiento as $participante)
+                                        <option value="{{$participante->cedula}}">{{$participante->nombres}} {{$participante->apellidos}}</option>
+                                    @endforeach
+                                </select>                                
                             </td>
                         </tr>
                         <tr>
                             <td>Fecha:</td>
                             <td class="fecha">
-                                {{ Form::text($g.$e.'-fecha') }}
+                                {{ Form::text($f.'-'.$e.'-fecha') }}
                             </td>
                         </tr>
                         <tr>
@@ -67,13 +108,12 @@
                         </tr>
                     </tbody>
                 </table>
-                {{ Form::hidden($g.$e.'-cedula_participante_1', $enfrentamiento[0]['cedula']) }}
-                {{ Form::hidden($g.$e.'-cedula_participante_2', $enfrentamiento[1]['cedula']) }}
-                {{ Form::hidden($g.$e.'-codigo_torneo', $torneo->codigo) }}
-                {{ Form::hidden($g.$e.'-fase', $f) }}
-                {{ Form::hidden($g.$e.'-sets_jugados', null) }}
-                @endforeach
-            @endforeach            
+                {{ Form::hidden($f.'-'.$e.'-cedula_participante_2', $enfrentamiento[1]->cedula) }}
+                {{ Form::hidden($f.'-'.$e.'-codigo_torneo', $torneo->codigo) }}
+                {{ Form::hidden($f.'-'.$e.'-fase', $f) }}
+                {{ Form::hidden($f.'-'.$e.'-sets_jugados', null) }}
+                @endforeach 
+            @endif                              
         @endforeach    
     @else
         @foreach ($fases as $f=>$fase)        
@@ -83,9 +123,9 @@
                 <tbody>
                     <tr>
                         <td class="center" colspan="2">
-                            {{ $enfrentamiento[0]['nombres'] }} {{ $enfrentamiento[0]['apellidos'] }}
+                            {{ $enfrentamiento[0]->nombres }} {{ $enfrentamiento[0]->apellidos }}
                             <b>vs</b><br>
-                            {{ $enfrentamiento[1]['nombres'] }} {{ $enfrentamiento[1]['apellidos'] }}
+                            {{ $enfrentamiento[1]->nombres }} {{ $enfrentamiento[1]->apellidos }}
                         </td>
                     </tr>
                     <tr>
@@ -99,8 +139,8 @@
                     </tr>
                 </tbody>
             </table>
-            {{ Form::hidden($e.'-cedula_participante_1', $enfrentamiento[0]['cedula']) }}
-            {{ Form::hidden($e.'-cedula_participante_2', $enfrentamiento[1]['cedula']) }}
+            {{ Form::hidden($e.'-cedula_participante_1', $enfrentamiento[0]->cedula) }}
+            {{ Form::hidden($e.'-cedula_participante_2', $enfrentamiento[1]->cedula) }}
             {{ Form::hidden($e.'-codigo_torneo', $torneo->codigo) }}
             {{ Form::hidden($e.'-fase', $f) }}
             {{ Form::hidden($e.'-sets_jugados', null) }}
