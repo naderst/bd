@@ -8,7 +8,8 @@ class TorneosController extends BaseController {
 		'cantidad' => 'required|integer|base_dos'
 	);
 	
-	function __construct() {	
+	function __construct() {
+		parent::__construct();	
         Validator::extend('base_dos', function($attribute, $value, $parameters) {
             if ($value <= 64 && ($value & ($value - 1)) == 0)
                 return true;            
