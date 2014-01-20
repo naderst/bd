@@ -1,9 +1,7 @@
 /*  FVTM - UCAB Guayana
     Aplicación: Ping Pong
     Aplicación URL: https://github.com/naderst/bd
-    Autores: Nader Abu Fakhr - naderst@gmail.com - @naderst 
-             José Cols - josecolsg@gmail.com - @josecols
-             Moisés Moussa
+    Autores: https://github.com/naderst/bd/graphs/contributors
     Version: 1.0
 */
 

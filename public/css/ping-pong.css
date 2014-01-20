@@ -3,9 +3,7 @@
 /*  FVTM - UCAB Guayana
     Tema: Ping Pong
     Tema URL: https://github.com/naderst/bd
-    Autores: Nader Abu Fakhr - naderst@gmail.com - @naderst 
-             José Cols - josecolsg@gmail.com - @josecols
-             Moisés Moussa
+    Autores: https://github.com/naderst/bd/graphs/contributors
     Version: 1.0
 */
 
@@ -263,6 +261,19 @@ body {
     width: 100%;
     margin-bottom: 20px;
 }
+.formulario.enfrentamiento {
+    width: 100%;
+    max-height: 300px;
+    display: block;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.formulario.enfrentamiento td {
+    padding: 0 8px;
+    width: 100%;
+    display: table-cell;
+    height: 50px;
+}
 .formulario a.eliminar {
     color: #e74c3c;
 }
@@ -413,11 +424,11 @@ body {
     .formulario {
         width: auto;
     }
+    .formulario.enfrentamiento {
+        width: 400px;
+    }
     .formulario.left {
         margin-right: 10px;
-    }
-    .formulario.right {
-        margin-left: 20px;
     }
     .grupo {
         text-align: left;
@@ -460,7 +471,7 @@ body {
         width: 25%;
     }
     .contenedor {
-        width: 70%;
+        width: 72%;
         float: right;
     }
 }
