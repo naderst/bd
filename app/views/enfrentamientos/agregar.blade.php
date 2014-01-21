@@ -86,14 +86,14 @@
                     <tbody>
                         <tr>
                             <td class="center" colspan="2">
-                                <select name="{{$f.'-'.$e.'-cedula_participante_1'}}" id="" disabled>
+                                <select name="{{$f.'-'.$e.'-cedula_participante_1'}}" disabled>
                                     <option value="-1" selected>Sin determinar</option>
                                     @foreach ($enfrentamiento as $participante)
                                         <option value="{{$participante->cedula}}">{{$participante->nombres}} {{$participante->apellidos}}</option>
                                     @endforeach
                                 </select>
                                 <b>vs</b><br>
-                                 <select name="{{$f.'-'.$e.'-cedula_participante_2'}}" id="" disabled>
+                                 <select name="{{$f.'-'.$e.'-cedula_participante_2'}}" disabled>
                                     <option value="-1" selected>Sin determinar</option>
                                     @foreach ($enfrentamiento as $participante)
                                         <option value="{{$participante->cedula}}">{{$participante->nombres}} {{$participante->apellidos}}</option>

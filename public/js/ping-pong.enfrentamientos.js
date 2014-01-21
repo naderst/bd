@@ -6,7 +6,46 @@
     Version: 1.0
 */
 
+const ATLETAS_POR_GRUPO = 4;
+const GRUPO_CONTRARIO = {
+    'A': 'B',
+    'B': 'A',
+    'C': 'D',
+    'D': 'C',
+    'E': 'F',
+    'F': 'E',
+    'G': 'H',
+    'H': 'G',
+    'I': 'J',
+    'J': 'I',
+    'K': 'L',
+    'L': 'K',
+    'M': 'N',
+    'N': 'M',
+    'O': 'P',
+    'P': 'O'
+}
 var ganadores = [];
+
+function sortByFrequency(array) {
+    var frequency = {};
+
+    array.forEach(function (value) {
+        frequency[value] = 0;
+    });
+
+    var uniques = array.filter(function (value) {
+        return ++frequency[value] == 1;
+    });
+
+    return uniques.sort(function (a, b) {
+        return frequency[b] - frequency[a];
+    });
+}
+
+function esImpar(n) {
+    return (n % 2) == 1;
+}
 
 function agregarSets(id, contenedor) {
     var setsJugados = parseInt($('input[name=' + id + '-sets_jugados]').val());
@@ -52,16 +91,139 @@ function esGanador(id, set, participante) {
     return false;
 }
 
-/**
- * El id debe contener el set
- */
+function getFase(id) {
+    var split = id.split('-');
+    return parseInt(split[0]);
+}
+
+function getGrupo(id) {
+    var split = id.split('-');
+    return split[split.length - 2];
+}
+
+function getEnfrentamiento(id) {
+    var split = id.split('-');
+    return parseInt(split[split.length - 1]);
+}
+
 function getSet(id) {
     var split = id.split('-');
     return parseInt(split[split.length - 1]);
 }
 
-$(document).ready(function () {
+function getGrupoContrario(id) {
+    return GRUPO_CONTRARIO[getGrupo(id)];
+}
 
+function esGrupoCerrado(id) {
+    var cantidadEnfrentamientos = (ATLETAS_POR_GRUPO - 1) * 2;
+    var grupo = getGrupo(id);
+
+    for (i = 0; i < cantidadEnfrentamientos; ++i) {
+        if (parseInt($('input[name="' + '0-' + grupo + '-' + i + '-sets_jugados' + '"]').val()) == 0)
+            return false;
+    }
+    return true;
+}
+
+function getMejoresGrupo(id) {
+    var cantidadEnfrentamientos = (ATLETAS_POR_GRUPO - 1) * 2;
+    var grupo = getGrupo(id);
+    var ganadoresGrupo = [];
+
+    if (esGrupoCerrado(id)) {
+        for (i = 0; i < cantidadEnfrentamientos; ++i)
+            ganadoresGrupo[i] = ganadores['0-' + grupo + '-' + i];
+
+        return sortByFrequency(ganadoresGrupo);
+    } else {
+        return null;
+    }
+}
+
+function getMejoresGrupoContrario(id) {
+    return getMejoresGrupo('0-' + getGrupoContrario(id) + '-0');
+}
+
+function getIndiceEnfrentamiento(grupo) {
+    return grupo.toUpperCase().charCodeAt(0) - 65;
+}
+
+function getProximoEnfrentamiento(enfrentamiento) {
+    if (esImpar(enfrentamiento))
+        return (enfrentamiento - 1) / 2;
+    return enfrentamiento / 2;
+}
+
+function planificarEnfrentamientos(id) {
+    if (id.split('-')[0] == '0') {
+        var grupo = getGrupo(id);
+        var grupoContrario = getGrupoContrario(id);
+        var mejoresGrupo;
+        var mejoresGrupoContrario;
+
+        if ((mejoresGrupo = getMejoresGrupo(id)) != null && (mejoresGrupoContrario = getMejoresGrupoContrario(id)) != null) {
+            $('select[name="' + '1-' + getIndiceEnfrentamiento(grupo) + '-cedula_participante_1"]').val(mejoresGrupo[0]);
+            $('select[name="' + '1-' + getIndiceEnfrentamiento(grupo) + '-cedula_participante_2"]').val(mejoresGrupoContrario[1]);
+            $('select[name="' + '1-' + getIndiceEnfrentamiento(grupoContrario) + '-cedula_participante_1"]').val(mejoresGrupoContrario[0]);
+            $('select[name="' + '1-' + getIndiceEnfrentamiento(grupoContrario) + '-cedula_participante_2"]').val(mejoresGrupo[1]);
+
+            var setGrupo = parseInt($('input[name="1-' + getIndiceEnfrentamiento(grupo) + '-sets_jugados"]').val()) - 1;
+            var setGrupoContrario = parseInt($('input[name="1-' + getIndiceEnfrentamiento(grupoContrario) + '-sets_jugados"]').val()) - 1;
+
+            if (setGrupo != -1) {
+                cambiarPuntos($('.puntos[name="1-' + getIndiceEnfrentamiento(grupo) + '-' + setGrupo + '-puntos_participante_1"]'));
+            }
+
+            if (setGrupoContrario != -1) {
+                cambiarPuntos($('.puntos[name="1-' + getIndiceEnfrentamiento(grupoContrario) + '-' + setGrupoContrario + '-puntos_participante_1"]'));
+            }
+        }
+    } else {
+        var fase = getFase(id) + 1;
+        var enfrentamiento = getEnfrentamiento(id);
+        var proximoEnfrentamiento = getProximoEnfrentamiento(enfrentamiento);
+
+
+        if (esImpar(enfrentamiento))
+            $('select[name="' + fase + '-' + proximoEnfrentamiento + '-cedula_participante_2"]').val(ganadores[id]);
+        else
+            $('select[name="' + fase + '-' + proximoEnfrentamiento + '-cedula_participante_1"]').val(ganadores[id]);
+
+
+        var setGrupo = parseInt($('input[name="' + fase + '-' + proximoEnfrentamiento + '-sets_jugados"]').val()) - 1;
+
+        if (setGrupo != -1) {
+            cambiarPuntos($('.puntos[name="' + fase + '-' + proximoEnfrentamiento + '-' + setGrupo + '-puntos_participante_1"]'));
+        }
+    }
+}
+
+function cambiarPuntos(campo) {
+    var id = campo.parent().parent().attr('data-id');
+    var participante = campo.attr('data-participante');
+    var oponente = 'participante_' + (participante.substring(participante.lastIndexOf('_') + 1) == '1' ? '2' : '1');
+    var fase = getFase(id);
+    var set = getSet(id);
+    var campo = (fase > 0 ? 'select' : 'input');
+
+    id = id.substring(0, id.lastIndexOf('-'));
+
+    if (esUltimoSet(id, set) && esGanador(id, set, participante)) {
+        var cedula = $(campo + '[name="' + id + '-cedula_' + participante + '"]').val();
+        if (cedula != '-1')
+            ganadores[id] = cedula;
+
+    } else if (esUltimoSet(id, set) && esGanador(id, set, oponente)) {
+        var cedula = $(campo + '[name="' + id + '-cedula_' + oponente + '"]').val();
+        if (cedula != '-1')
+            ganadores[id] = cedula;
+    }
+
+    planificarEnfrentamientos(id);
+}
+
+$(document).ready(function () {
     $('.agregar-sets').click(function () {
         agregarSets($(this).attr('data-id'), $(this).parent().parent());
     });
@@ -81,21 +243,10 @@ $(document).ready(function () {
         });
     });
 
+    $('input[name="1-0-cedula_participante_1"]').val(55);
+
     $(document).on('change', '.puntos', function () {
-        var id = $(this).parent().parent().attr('data-id');
-        var participante = $(this).attr('data-participante');
-        var oponente = 'participante_' + (participante.substring(participante.lastIndexOf('_') + 1) == '1' ? '2' : '1');
-        var set = getSet(id);
-
-        id = id.substring(0, id.lastIndexOf('-'));        
-
-        if (esUltimoSet(id, set) && esGanador(id, set, participante)) {
-            ganadores[id] = $('input[name="' + id + '-cedula_' + participante + '"]').val();
-        } else if (esUltimoSet(id, set) && esGanador(id, set, oponente)) {
-            ganadores[id] = $('input[name="' + id + '-cedula_' + oponente + '"]').val();
-        }
-
-        console.log(ganadores);
+        cambiarPuntos($(this));
     });
 
 });
