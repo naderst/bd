@@ -36,7 +36,9 @@
 	</div>
 	@endif        
 
-    {{ Form::open(array('action' => 'EnfrentamientosController@getAgregar', 'id' => 'frmAsoc')) }}    
+    {{ Form::open(array('action' => 'EnfrentamientosController@getAgregar', 'id' => 'frmEnfrentamientos')) }}   
+    
+    {{ Form::hidden('codigo', $torneo->codigo) }}
     
     @if ($torneo->cantidad >= 8)
         @foreach ($fases as $f=>$fase)

@@ -229,8 +229,6 @@ function cambiarPuntos(campo) {
         ganadores[id] = -1;
     }
 
-    console.log(id + '-' + set);
-    console.log(ganadores);
     planificarEnfrentamientos(id);
 }
 
@@ -259,5 +257,9 @@ $(document).ready(function () {
     $(document).on('change', '.puntos', function () {
         cambiarPuntos($(this));
     });
-
+    
+    $('.save').click(function() {
+        $('select').removeAttr('disabled');
+        $('#frmEnfrentamientos').submit();
+    });
 });

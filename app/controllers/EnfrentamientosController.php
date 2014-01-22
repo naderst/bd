@@ -2,6 +2,8 @@
 class EnfrentamientosController extends BaseController {
 
     private static $FASES = array(16 => 'Dieciseisavos de final', 8 => 'Octavos de final', 4 => 'Cuartos de final', 2 => 'Semifinal', 1 => 'Final');
+    private static $GRUPOS = 'ABCDEFGHIJKLMNOP';
+    private static $ATLETAS_POR_GRUPO = 4;
     
     private static function relacionBinaria($arreglos) {
         $reflexiva = array();
@@ -26,6 +28,10 @@ class EnfrentamientosController extends BaseController {
             }
         }
         return $resultado;
+    }
+    
+    private static function cardinalidadFactores($n) {
+        return log10($n)/log10(2);    
     }
 
 
@@ -87,9 +93,85 @@ class EnfrentamientosController extends BaseController {
             );
         }
                 
-		return View::make('enfrentamientos.agregar', $data);
-		
-		return $data;
+		return View::make('enfrentamientos.agregar', $data);		
 	}
+	
+	function postAgregar($agregar = null) {
+	    $torneo = Torneo::where('codigo', Input::get('codigo'))->first();
+	    $cantidadFases = EnfrentamientosController::cardinalidadFactores($torneo->cantidad);
+	    $cantidadGrupos = $torneo->cantidad / 4;
+	    $errores = '';
+	    
+	    for ($fase = 0; $fase < $cantidadFases; ++$fase) {	                        
+            
+            if ($fase > 0)
+                $cantidadGrupos = 1;             
+            
+            for($grupo = 0; $grupo < $cantidadGrupos; ++$grupo) {     
+                                                
+                $cantidadEnfrentamientos = ($fase == 0 ? (EnfrentamientosController::$ATLETAS_POR_GRUPO - 1) * 2 : $torneo->cantidad / pow(2, $fase+1));                                                                               
+                for ($enfrentamiento = 0; $enfrentamiento < $cantidadEnfrentamientos; ++$enfrentamiento) {
+
+                    $grupoId = ($fase == 0 ? EnfrentamientosController::$GRUPOS[$grupo].'-' : '');
+                                        
+                    if (($setsJugados = intval(Input::get($fase.'-'.$grupoId.$enfrentamiento.'-sets_jugados'))) > 0 
+                    && (intval(Input::get($fase.'-'.$grupoId.$enfrentamiento.'-'.($setsJugados - 1).'-puntos_participante_1')) > 0 
+                    || intval(Input::get($fase.'-'.$grupoId.$enfrentamiento.'-'.($setsJugados - 1).'-puntos_participante_2')) > 0 )) {
+                        
+                        $cedulaParticipante1 = Input::get($fase.'-'.$grupoId.$enfrentamiento.'-cedula_participante_1');
+                        $cedulaParticipante2 = Input::get($fase.'-'.$grupoId.$enfrentamiento.'-cedula_participante_2');
+                        $fecha = Input::get($fase.'-'.$grupoId.$enfrentamiento.'-fecha');
+                                                    
+                        try {
+                            DB::table('enfrentamientos')->insert(array(
+                                'cedula_participante_1' => $cedulaParticipante1,
+                                'cedula_participante_2' => $cedulaParticipante2,
+                                'codigo_torneo' => $torneo->codigo,
+                                'fase' => $fase,
+                                'fecha' => $fecha,
+                                'sets_jugados' => $setsJugados
+                            ));                                  
+                            Session::flash('message', 'Se han agregados los enfrentamientos correctamente');
+                        } catch(Exception $exception) {
+                            $errores = $errores.'<br>'.$exception->getMessage();
+                        }
+                    }
+                    
+                    for ($set = 0; $set < $setsJugados; ++$set) {
+                        $puntosParticipante1 = Input::get($fase.'-'.$grupoId.$enfrentamiento.'-'.$set.'-puntos_participante_1');
+                        $puntosParticipante2 = Input::get($fase.'-'.$grupoId.$enfrentamiento.'-'.$set.'-puntos_participante_2');
+                        
+                        try {
+                            DB::table('sets')->insert(array(
+                                'cedula_participante_1' => $cedulaParticipante1,
+                                'cedula_participante_2' => $cedulaParticipante2,
+                                'codigo_torneo' => $torneo->codigo,
+                                'fase' => $fase,
+                                'set' => $set,
+                                'puntos_participante_1' => $puntosParticipante1,
+                                'puntos_participante_2' => $puntosParticipante2
+                            ));                                                                  
+                        } catch(Exception $exception) {
+                            $errores = $errores.'<br>'.$exception->getMessage();
+                        }
+                    }      
+                }                          
+            }                               
+        }
+        
+        if ($errores != '') {
+            Session::flash('message', 'Error agregando enfrentamientos/sets, el servidor dijo:'.$errores);
+            Session::flash('message_type', 'error');
+        }
+        
+        if ($agregar)
+			return Redirect::action('EnfrentamientosController@getAgregar');
+		else
+			return Redirect::action('TorneosController@getIndex');    
+    }
+    
+    function getPrueba() {
+        return EnfrentamientosController::cardinalidadFactores(64);
+    }
 
 }
