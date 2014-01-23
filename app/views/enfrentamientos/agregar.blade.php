@@ -5,20 +5,20 @@
 @stop
 
 @section('title')
-	Torneo
+    Torneo
 @stop
 
 @section('description')
-	Enfrentamientos del torneo
+    Enfrentamientos del torneo
 @stop
 
 @section('breadcrumb')
-	<li>
-		<a href="{{ Session::get('page.url') }}">
-			<i class="fa fa-arrow-circle-left"></i>
-			<span>Volver</span>
-		</a>
-	</li>
+    <li>
+        <a href="{{ Session::get('page.url') }}">
+            <i class="fa fa-arrow-circle-left"></i>
+            <span>Volver</span>
+        </a>
+    </li>
     <li>
         <a class="save" href="javascript:void(0)" >
             <i class="fa fa-floppy-o"></i>
@@ -28,22 +28,22 @@
 @stop
 
 @section('content')
-	@if ($errors->any())
-	<div id="message" class="error">
-		@foreach ($errors->all() as $message)
-			{{ $message }} <br>
-		@endforeach
-	</div>
-	@endif        
+    @if ($errors->any())
+    <div id="message" class="error">
+        @foreach ($errors->all() as $message)
+            {{ $message }} <br>
+        @endforeach
+    </div>
+    @endif
 
-    {{ Form::open(array('action' => 'EnfrentamientosController@getAgregar', 'id' => 'frmEnfrentamientos')) }}   
-    
+    {{ Form::open(array('action' => 'EnfrentamientosController@getAgregar', 'id' => 'frmEnfrentamientos')) }}
+
     {{ Form::hidden('codigo', $torneo->codigo) }}
-    
+
     @if ($torneo->cantidad >= 8)
         @foreach ($fases as $f=>$fase)
             <div class="separador">{{ $fase['nombre'] }}</div>
-            
+
             @if ($f == 0)
                 @foreach ($fase['grupos'] as $g=>$grupo)
                     <div class="grupo">{{ $g }}</div>
@@ -100,7 +100,7 @@
                                     @foreach ($enfrentamiento as $participante)
                                         <option value="{{$participante->cedula}}">{{$participante->nombres}} {{$participante->apellidos}}</option>
                                     @endforeach
-                                </select>                                
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -112,17 +112,22 @@
                         <tr>
                             <td class="boton" colspan="2"><a class="agregar-sets" data-id="{{$f.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar sets</a></td>
                         </tr>
+                         <tr>
+                            <td class="boton" colspan="2">
+                                <a class="eliminar-sets eliminar" data-id="{{$f.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Eliminar sets</a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
                 {{ Form::hidden($f.'-'.$e.'-codigo_torneo', $torneo->codigo) }}
                 {{ Form::hidden($f.'-'.$e.'-fase', $f) }}
                 {{ Form::hidden($f.'-'.$e.'-sets_jugados', 0) }}
-                @endforeach 
-            @endif                              
-        @endforeach    
+                @endforeach
+            @endif
+        @endforeach
     @else
-        @foreach ($fases as $f=>$fase)        
-            <div class="separador">{{ $fase['nombre'] }}</div>            
+        @foreach ($fases as $f=>$fase)
+            <div class="separador">{{ $fase['nombre'] }}</div>
             @foreach ($fase['enfrentamientos'] as $e=>$enfrentamiento)
             <table class="formulario enfrentamiento left ">
                 <tbody>
@@ -136,24 +141,31 @@
                     <tr>
                         <td>Fecha:</td>
                         <td class="fecha">
-                            {{ Form::text($e.'-fecha') }}
+                            {{ Form::text($f.'-'.$e.'-fecha') }}
                         </td>
                     </tr>
                     <tr>
-                        <td class="boton" colspan="2"><a class="agregar-sets" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar sets</a></td>
+                        <td class="boton" colspan="2">
+                            <a class="agregar-sets" data-id="{{$f.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar sets</a>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="boton" colspan="2">
+                            <a class="eliminar-sets eliminar" data-id="{{$f.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Eliminar sets</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
-            {{ Form::hidden($e.'-cedula_participante_1', $enfrentamiento[0]->cedula) }}
-            {{ Form::hidden($e.'-cedula_participante_2', $enfrentamiento[1]->cedula) }}
-            {{ Form::hidden($e.'-codigo_torneo', $torneo->codigo) }}
-            {{ Form::hidden($e.'-fase', $f) }}
-            {{ Form::hidden($e.'-sets_jugados', 0) }}
-            @endforeach            
+            {{ Form::hidden($f.'-'.$e.'-cedula_participante_1', $enfrentamiento[0]->cedula) }}
+            {{ Form::hidden($f.'-'.$e.'-cedula_participante_2', $enfrentamiento[1]->cedula) }}
+            {{ Form::hidden($f.'-'.$e.'-codigo_torneo', $torneo->codigo) }}
+            {{ Form::hidden($f.'-'.$e.'-fase', $f) }}
+            {{ Form::hidden($f.'-'.$e.'-sets_jugados', 0) }}
+            @endforeach
         @endforeach
     @endif
 
-	{{ Form::close() }}
+    {{ Form::close() }}
 @stop
 
 @section('javascript')
