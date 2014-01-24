@@ -200,7 +200,6 @@ function planificarEnfrentamientos(id) {
         else
             $('select[name="' + fase + '-' + proximoEnfrentamiento + '-cedula_participante_1"]').val(ganadores[id]);
 
-
         var set = parseInt($('input[name="' + fase + '-' + proximoEnfrentamiento + '-sets_jugados"]').val()) - 1;
 
         if (set != -1) {
@@ -236,7 +235,6 @@ function cargarEnfrentamiento(cedula1, cedula2, codigo, fase, id) {
     $.ajax({
         url: rutaEnfrentamiento,
         type: 'GET',
-        async: false,
         data: {
             'cedula_participante_1': cedula1,
             'cedula_participante_2': cedula2,
@@ -283,7 +281,6 @@ function cargarSet(cedula1, cedula2, codigo, fase, set, id) {
     $.ajax({
         url: rutaSet,
         type: 'GET',
-        async: false,
         data: {
             'cedula_participante_1': cedula1,
             'cedula_participante_2': cedula2,
@@ -316,12 +313,15 @@ function inflarModificacion() {
         var fase = getFase(id);
         var campo = (fase > 0 ? 'select' : 'input');
 
-        cargarEnfrentamiento(
-            $(campo + '[name="' + id + '-cedula_participante_1"]').val(),
-            $(campo + '[name="' + id + '-cedula_participante_2"]').val(),
-            $('input[name="codigo"]').val(),
-            fase,
-            id);
+        setTimeout(function () {
+            cargarEnfrentamiento(
+                $(campo + '[name="' + id + '-cedula_participante_1"]').val(),
+                $(campo + '[name="' + id + '-cedula_participante_2"]').val(),
+                $('input[name="codigo"]').val(),
+                fase,
+                id);
+        }, fase * 1500);
+
     });
 }
 
