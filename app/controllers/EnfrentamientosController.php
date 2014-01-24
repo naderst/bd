@@ -101,6 +101,7 @@ class EnfrentamientosController extends BaseController {
         $cantidadFases = ($torneo->cantidad < 8 ? 1 : EnfrentamientosController::cardinalidadFactores($torneo->cantidad));
         $cantidadGrupos = $torneo->cantidad / 4;
         $errores = '';
+        $existente;
 
         for ($fase = 0; $fase < $cantidadFases; ++$fase) {
 
@@ -123,18 +124,26 @@ class EnfrentamientosController extends BaseController {
                         $cedulaParticipante2 = Input::get($fase.'-'.$grupoId.$enfrentamiento.'-cedula_participante_2');
                         $fecha = Input::get($fase.'-'.$grupoId.$enfrentamiento.'-fecha');
 
-                        try {
-                            DB::table('enfrentamientos')->insert(array(
-                                'cedula_participante_1' => $cedulaParticipante1,
-                                'cedula_participante_2' => $cedulaParticipante2,
-                                'codigo_torneo' => $torneo->codigo,
-                                'fase' => $fase,
-                                'fecha' => $fecha,
-                                'sets_jugados' => $setsJugados
-                            ));
-                            Session::flash('message', 'Se han agregados los enfrentamientos correctamente');
-                        } catch(Exception $exception) {
-                            $errores = $errores.'<br>'.$exception->getMessage();
+                        $existente = DB::table('enfrentamientos')
+                            ->where('cedula_participante_1', $cedulaParticipante1)
+                            ->where('cedula_participante_2', $cedulaParticipante2)
+                            ->where('codigo_torneo', $torneo->codigo)
+                            ->where('fase', $fase)->first();
+
+                        if (!isset($existente)) {
+                            try {
+                                DB::table('enfrentamientos')->insert(array(
+                                    'cedula_participante_1' => $cedulaParticipante1,
+                                    'cedula_participante_2' => $cedulaParticipante2,
+                                    'codigo_torneo' => $torneo->codigo,
+                                    'fase' => $fase,
+                                    'fecha' => $fecha,
+                                    'sets_jugados' => $setsJugados
+                                ));
+                                Session::flash('message', 'Se han agregados los enfrentamientos correctamente');
+                            } catch(Exception $exception) {
+                                $errores = $errores.'<br>'.$exception->getMessage();
+                            }
                         }
                     }
 
@@ -142,18 +151,37 @@ class EnfrentamientosController extends BaseController {
                         $puntosParticipante1 = Input::get($fase.'-'.$grupoId.$enfrentamiento.'-'.$set.'-puntos_participante_1');
                         $puntosParticipante2 = Input::get($fase.'-'.$grupoId.$enfrentamiento.'-'.$set.'-puntos_participante_2');
 
-                        try {
-                            DB::table('sets')->insert(array(
-                                'cedula_participante_1' => $cedulaParticipante1,
-                                'cedula_participante_2' => $cedulaParticipante2,
-                                'codigo_torneo' => $torneo->codigo,
-                                'fase' => $fase,
-                                'set' => $set,
-                                'puntos_participante_1' => $puntosParticipante1,
-                                'puntos_participante_2' => $puntosParticipante2
-                            ));
-                        } catch(Exception $exception) {
-                            $errores = $errores.'<br>'.$exception->getMessage();
+                        if (!isset($existente)) {
+                            try {
+                                DB::table('sets')->insert(array(
+                                    'cedula_participante_1' => $cedulaParticipante1,
+                                    'cedula_participante_2' => $cedulaParticipante2,
+                                    'codigo_torneo' => $torneo->codigo,
+                                    'fase' => $fase,
+                                    'set' => $set,
+                                    'puntos_participante_1' => $puntosParticipante1,
+                                    'puntos_participante_2' => $puntosParticipante2
+                                ));
+                            } catch(Exception $exception) {
+                                $errores = $errores.'<br>'.$exception->getMessage();
+                            }
+                        } else {
+                            try {
+                                DB::table('sets')
+                                    ->where('cedula_participante_1', $cedulaParticipante1)
+                                    ->where('cedula_participante_2', $cedulaParticipante2)
+                                    ->where('codigo_torneo', $torneo->codigo)
+                                    ->where('fase', $fase)
+                                    ->where('set', $set)
+                                    ->update(array(
+                                        'puntos_participante_1' => $puntosParticipante1,
+                                        'puntos_participante_2' => $puntosParticipante2
+                                    )
+                                );
+                                Session::flash('message', 'Enfrentamientos modificados correctamente');
+                            } catch(Exception $exception) {
+                                $errores = $errores.'<br>'.$exception->getMessage();
+                            }
                         }
                     }
                 }
