@@ -21,7 +21,7 @@ $(document).ready(function () {
         $('#usuario').slideToggle('fast');
     });
     $('.borrar').click(function () {
-        return confirm('¿Está seguro que desea eliminar el elemento "' + $('.borrar').attr('data-msg') + '"?');
+        return confirm('¿Está seguro que desea eliminar el elemento "' + $(this).attr('data-msg') + '"?');
     });
     $('.save').click(function () {
         $('#frmAsoc').submit();
