@@ -232,6 +232,96 @@ function cambiarPuntos(campo) {
     planificarEnfrentamientos(id);
 }
 
+function cargarEnfrentamiento(cedula1, cedula2, codigo, fase, id) {
+    $.ajax({
+        url: rutaEnfrentamiento,
+        type: 'GET',
+        data: {
+            'cedula_participante_1': cedula1,
+            'cedula_participante_2': cedula2,
+            'codigo': codigo,
+            'fase': fase
+        },
+        error: function () {
+            alert('Ocurrió un error inesperado.');
+        },
+        success: function (enfrentamiento) {
+            inflarEnfrentamiento(enfrentamiento[0], id);
+        }
+    });
+}
+
+function inflarEnfrentamiento(enfrentamiento, id) {
+    if (enfrentamiento != undefined) {
+        $('.agregar-sets[data-id="' + id + '"]').parent().parent().hide();
+        $('.eliminar-sets[data-id="' + id + '"]').parent().parent().hide();
+        $('input[name="' + id + '-fecha"]').attr('disabled', 'disabled');
+        $('input[name="' + id + '-fecha"]').val(enfrentamiento.fecha);
+
+
+        agregarSets(id, $('.agregar-sets[data-id="' + id + '"]').parent().parent());
+
+        for (var i = 1; i < ((parseInt(enfrentamiento.sets_jugados) - 1) / 2) + 1; ++i) {
+            agregarSets(id, $('.agregar-sets[data-id="' + id + '"]').parent().parent());
+        }
+
+        for (var i = 0; i < parseInt(enfrentamiento.sets_jugados); ++i) {
+            cargarSet(enfrentamiento.cedula_participante_1,
+                enfrentamiento.cedula_participante_2,
+                enfrentamiento.codigo_torneo,
+                enfrentamiento.fase,
+                i,
+                id);
+        }
+
+        $('input[name="' + id + '-sets_jugados"]').val(enfrentamiento.sets_jugados);
+    }
+}
+
+function cargarSet(cedula1, cedula2, codigo, fase, set, id) {
+    $.ajax({
+        url: rutaSet,
+        type: 'GET',
+        data: {
+            'cedula_participante_1': cedula1,
+            'cedula_participante_2': cedula2,
+            'codigo': codigo,
+            'fase': fase,
+            'set': set
+        },
+        error: function () {
+            alert('Ocurrió un error inesperado.');
+        },
+        success: function (set) {
+            inflarSet(set[0], id);
+        }
+    });
+}
+
+function inflarSet(set, id) {
+    if (set != undefined) {
+        $('input[name="' + id + '-' + set.set + '-puntos_participante_1"]').val(set.puntos_participante_1);
+        $('input[name="' + id + '-' + set.set + '-puntos_participante_2"]').val(set.puntos_participante_2);
+    }
+}
+
+function inflarModificacion() {
+    var formularios = $('.formulario');
+
+    formularios.each(function () {
+        var id = $(this).attr('data-id');
+        var fase = getFase(id);
+        var campo = (fase > 0 ? 'select' : 'input');
+
+        cargarEnfrentamiento(
+            $(campo + '[name="' + id + '-cedula_participante_1"]').val(),
+            $(campo + '[name="' + id + '-cedula_participante_2"]').val(),
+            $('input[name="codigo"]').val(),
+            fase,
+            id);
+    });
+}
+
 $(document).ready(function () {
     $('.agregar-sets').click(function () {
         agregarSets($(this).attr('data-id'), $(this).parent().parent());
@@ -252,14 +342,14 @@ $(document).ready(function () {
         });
     });
 
-    $('input[name="1-0-cedula_participante_1"]').val(55);
-
     $(document).on('change', '.puntos', function () {
         cambiarPuntos($(this));
     });
-    
-    $('.save').click(function() {
+
+    $('.save').click(function () {
         $('select').removeAttr('disabled');
         $('#frmEnfrentamientos').submit();
     });
+
+    inflarModificacion();
 });

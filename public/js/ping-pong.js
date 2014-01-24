@@ -35,5 +35,6 @@ $(document).ready(function () {
         lang: 'es',
         timepicker: false,
         format: 'd/m/Y',
+        scrollInput: false
     });
 });

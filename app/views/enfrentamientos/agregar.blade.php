@@ -48,7 +48,7 @@
                 @foreach ($fase['grupos'] as $g=>$grupo)
                     <div class="grupo">{{ $g }}</div>
                     @foreach ($grupo as $e=>$enfrentamiento)
-                    <table class="formulario enfrentamiento left ">
+                    <table class="formulario enfrentamiento left" data-id="{{$f.'-'.$g.'-'.$e}}">
                         <tbody>
                             <tr>
                                 <td class="center" colspan="2">
@@ -77,14 +77,13 @@
                     </table>
                     {{ Form::hidden($f.'-'.$g.'-'.$e.'-cedula_participante_1', $enfrentamiento[0]->cedula) }}
                     {{ Form::hidden($f.'-'.$g.'-'.$e.'-cedula_participante_2', $enfrentamiento[1]->cedula) }}
-                    {{ Form::hidden($f.'-'.$g.'-'.$e.'-codigo_torneo', $torneo->codigo) }}
                     {{ Form::hidden($f.'-'.$g.'-'.$e.'-fase', $f) }}
                     {{ Form::hidden($f.'-'.$g.'-'.$e.'-sets_jugados', 0) }}
                     @endforeach
                 @endforeach
             @else
                 @foreach ($fase['enfrentamientos'] as $e=>$enfrentamiento)
-                <table class="formulario enfrentamiento left ">
+                <table class="formulario enfrentamiento left" data-id="{{$f.'-'.$e}}">
                     <tbody>
                         <tr>
                             <td class="center" colspan="2">
@@ -119,7 +118,6 @@
                         </tr>
                     </tbody>
                 </table>
-                {{ Form::hidden($f.'-'.$e.'-codigo_torneo', $torneo->codigo) }}
                 {{ Form::hidden($f.'-'.$e.'-fase', $f) }}
                 {{ Form::hidden($f.'-'.$e.'-sets_jugados', 0) }}
                 @endforeach
@@ -129,7 +127,7 @@
         @foreach ($fases as $f=>$fase)
             <div class="separador">{{ $fase['nombre'] }}</div>
             @foreach ($fase['enfrentamientos'] as $e=>$enfrentamiento)
-            <table class="formulario enfrentamiento left ">
+            <table class="formulario enfrentamiento left" data-id="{{$f.'-'.$e}}">
                 <tbody>
                     <tr>
                         <td class="center" colspan="2">
@@ -158,7 +156,6 @@
             </table>
             {{ Form::hidden($f.'-'.$e.'-cedula_participante_1', $enfrentamiento[0]->cedula) }}
             {{ Form::hidden($f.'-'.$e.'-cedula_participante_2', $enfrentamiento[1]->cedula) }}
-            {{ Form::hidden($f.'-'.$e.'-codigo_torneo', $torneo->codigo) }}
             {{ Form::hidden($f.'-'.$e.'-fase', $f) }}
             {{ Form::hidden($f.'-'.$e.'-sets_jugados', 0) }}
             @endforeach
@@ -169,6 +166,7 @@
 @stop
 
 @section('javascript')
+    <script>rutaEnfrentamiento = "{{ URL::action('EnfrentamientosController@getJson') }}";rutaSet = "{{ URL::action('SetsController@getJson') }}";</script>
     {{ HTML::script('js/jquery.datetimepicker.js') }}
     {{ HTML::script('js/jquery.numeric.js') }}
     {{ HTML::script('js/ping-pong.enfrentamientos.js') }}

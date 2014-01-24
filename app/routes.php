@@ -23,11 +23,12 @@ Route::group(array('before' => 'auth'), function()
     Route::controller('atletas', 'AtletasController');
     Route::controller('torneos', 'TorneosController');
     Route::controller('enfrentamientos', 'EnfrentamientosController');
+    Route::controller('sets', 'SetsController');
 });
 
 Route::get('/login', array('as' => 'login',function()
 {
-	return View::make('login');
+    return View::make('login');
 }))->before('guest');
 
 Route::post('/login', function()
@@ -38,14 +39,14 @@ Route::post('/login', function()
     );
 
     if(Input::has('remember'))
-    	$remember = true;
+        $remember = true;
     else
-    	$remember = false;
-    
+        $remember = false;
+
     if (Auth::attempt($user, $remember)) {
         return Redirect::intended('/');
     }
-    
+
     return Redirect::route('login')
         ->with('login_message', 'Nombre de usuario y/o contraseña incorrecta')
         ->withInput();
@@ -53,6 +54,6 @@ Route::post('/login', function()
 
 Route::get('/logout', function()
 {
-	Auth::logout();
-	return Redirect::to('/login');
+    Auth::logout();
+    return Redirect::to('/login');
 })->before('auth');

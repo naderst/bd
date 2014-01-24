@@ -169,7 +169,20 @@ class EnfrentamientosController extends BaseController {
             return Redirect::action('EnfrentamientosController@getAgregar');
         else
             return Redirect::action('TorneosController@getIndex');
+    }
 
-//    return 'prueba';
+    function getJson() {
+        $cedulaParticipante1 = Input::get('cedula_participante_1');
+        $cedulaParticipante2 = Input::get('cedula_participante_2');
+        $torneo = Input::get('codigo');
+        $fase = Input::get('fase');
+
+        $enfrentamiento = DB::table('enfrentamientos')->where('cedula_participante_1',$cedulaParticipante1)
+                            ->where('cedula_participante_2',$cedulaParticipante2)
+                            ->where('codigo_torneo',$torneo)
+                            ->where('fase',$fase)->get();
+
+        return $enfrentamiento;
     }
 }
+?>
