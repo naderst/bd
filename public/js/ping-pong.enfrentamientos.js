@@ -236,6 +236,7 @@ function cargarEnfrentamiento(cedula1, cedula2, codigo, fase, id) {
     $.ajax({
         url: rutaEnfrentamiento,
         type: 'GET',
+        async: false,
         data: {
             'cedula_participante_1': cedula1,
             'cedula_participante_2': cedula2,
@@ -282,6 +283,7 @@ function cargarSet(cedula1, cedula2, codigo, fase, set, id) {
     $.ajax({
         url: rutaSet,
         type: 'GET',
+        async: false,
         data: {
             'cedula_participante_1': cedula1,
             'cedula_participante_2': cedula2,
@@ -302,6 +304,7 @@ function inflarSet(set, id) {
     if (set != undefined) {
         $('input[name="' + id + '-' + set.set + '-puntos_participante_1"]').val(set.puntos_participante_1);
         $('input[name="' + id + '-' + set.set + '-puntos_participante_2"]').val(set.puntos_participante_2);
+        $('input[name="' + id + '-' + set.set + '-puntos_participante_1"]').change();
     }
 }
 
