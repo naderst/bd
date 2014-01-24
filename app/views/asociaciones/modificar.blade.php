@@ -5,7 +5,11 @@
 @stop
 
 @section('description')
-	Aquí se listan todas las asociaciones registradas. Puedes crear nuevas, editar y borrar existentes.
+	@if(!isset($asoc))
+		Aquí se agregan asociaciones
+	@else
+		Aquí se editan asociaciones
+	@endif
 @stop
 
 @section('breadcrumb')

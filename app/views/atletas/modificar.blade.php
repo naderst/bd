@@ -9,7 +9,11 @@
 @stop
 
 @section('description')
-	Aquí se listan todos los atletas registrados. Puedes crear nuevos, editar y borrar existentes.
+	@if(!isset($atletas))
+		Aquí se agregan atletas
+	@else
+		Aquí se editan atletas
+	@endif
 @stop
 
 @section('breadcrumb')

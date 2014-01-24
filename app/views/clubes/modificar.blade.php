@@ -5,7 +5,11 @@
 @stop
 
 @section('description')
-	Aquí se listan todos los clubes registrados. Puedes crear nuevos, editar y borrar existentes.
+	@if(!isset($clubes))
+		Aquí se agregan clubes
+	@else
+		Aquí se editan clubes
+	@endif
 @stop
 
 @section('breadcrumb')
