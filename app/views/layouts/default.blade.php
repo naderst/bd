@@ -48,14 +48,6 @@
             <nav class="navegacion">
                 <ul>
                     <li>
-                        <a href="{{ URL::to('/') }}"@if (Request::segment(1) == '') class="seleccionado"@endif>
-                            <i class="fa fa-home"></i>Inicio
-                            @if (Request::segment(1) == '')
-                            <span class="flecha"></span>
-                            @endif
-                        </a>
-                    </li>
-                    <li>
                         <a href="{{ URL::action('AsociacionesController@getIndex') }}"@if (Request::segment(1) == 'asociaciones') class="seleccionado"@endif>
                             <i class="fa fa-users"></i>Asociaciones
                             @if (Request::segment(1) == 'asociaciones')
@@ -79,9 +71,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ URL::action('TorneosController@getIndex') }}"@if (Request::segment(1) == 'torneos' or Request::segment(1) == 'enfrentamientos') class="seleccionado"@endif>
+                        <a href="{{ URL::action('TorneosController@getIndex') }}"@if (Request::segment(1) == 'torneos' or Request::segment(1) == 'enfrentamientos' or  Request::segment(1) == '') class="seleccionado"@endif>
                             <i class="fa fa-trophy"></i>Torneos
-                            @if (Request::segment(1) == 'torneos' or Request::segment(1) == 'enfrentamientos')
+                            @if (Request::segment(1) == 'torneos' or Request::segment(1) == 'enfrentamientos' or Request::segment(1) == '')
                             <span class="flecha"></span>
                             @endif
                         </a>
@@ -99,16 +91,16 @@
             </h1>
             <nav class="breadcrumb">
                 <ul>
-                	@yield('breadcrumb')
+                    @yield('breadcrumb')
                     <li class="fecha">
                         <i class="fa fa-calendar-o"></i>{{ date('d/m/Y', time()) }}</li>
                 </ul>
             </nav>
             @if (Session::has('message'))
-				<div id="message"@if (Session::has('message_type')) class="{{ Session::get('message_type') }}"@endif>
-					{{ Session::get('message') }}
-				</div>
-			@endif
+                <div id="message"@if (Session::has('message_type')) class="{{ Session::get('message_type') }}"@endif>
+                    {{ Session::get('message') }}
+                </div>
+            @endif
             @yield('content')
             <div id="maia-signature"></div>
             <div class="fix"></div>

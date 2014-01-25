@@ -15,7 +15,9 @@ Route::group(array('before' => 'auth'), function()
 {
     Route::get('/', function()
     {
-        return View::make('index');
+        return View::make('torneos.index', array(
+            'torneos' => Torneo::orderBy('fecha_inicio', 'desc')->paginate(10)
+        ));
     });
 
     Route::controller('asociaciones', 'AsociacionesController');
