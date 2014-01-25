@@ -31,10 +31,12 @@ $(document).ready(function () {
         $('#frmAsoc').submit();
     });
 
-    $('.fecha input[type=text]').datetimepicker({
-        lang: 'es',
-        timepicker: false,
-        format: 'd/m/Y',
-        scrollInput: false
-    });
+    if ($('.fecha input[type=text]').length > 0) {
+        $('.fecha input[type=text]').datetimepicker({
+            lang: 'es',
+            timepicker: false,
+            format: 'd/m/Y',
+            scrollInput: false
+        });
+    }
 });

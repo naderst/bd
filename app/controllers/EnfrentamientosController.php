@@ -128,7 +128,8 @@ class EnfrentamientosController extends BaseController {
                             ->where('cedula_participante_1', $cedulaParticipante1)
                             ->where('cedula_participante_2', $cedulaParticipante2)
                             ->where('codigo_torneo', $torneo->codigo)
-                            ->where('fase', $fase)->first();
+                            ->where('fase', $fase)
+                            ->first();
 
                         if (!isset($existente)) {
                             try {
@@ -211,6 +212,56 @@ class EnfrentamientosController extends BaseController {
                             ->where('fase',$fase)->get();
 
         return $enfrentamiento;
+    }
+
+    function getArboles() {
+        return View::make('enfrentamientos.arboles', array(
+            'torneos' => Torneo::orderBy('fecha_inicio', 'desc')->paginate(10)
+        ));
+    }
+
+    function getArbol($codigo) {
+        $torneo = Torneo::where('codigo', $codigo)->first();
+
+        if ($torneo->cantidad >= 8) {
+            $participantes = array();
+            $resultados = array();
+
+            $enfrentamientos = DB::table('enfrentamientos')
+                ->where('codigo_torneo', $codigo)
+                ->where('fase', 1)
+                ->orderBy('fecha', 'desc')
+                ->get();
+
+            for ($i = 0; $i < count($enfrentamientos); ++$i) {
+                $nombres1 = DB::table('atletas')->select('nombres', 'apellidos')->where('cedula', $enfrentamientos[$i]->cedula_participante_1)->get();
+                $nombres2 = DB::table('atletas')->select('nombres', 'apellidos')->where('cedula', $enfrentamientos[$i]->cedula_participante_2)->get();
+                $participantes[$i] = array(trim(preg_replace('/\s+/', ' ',$nombres1[0]->nombres.' '.$nombres1[0]->apellidos)),
+                    trim(preg_replace('/\s+/', ' ',$nombres2[0]->nombres.' '.$nombres2[0]->apellidos)));
+            }
+
+
+            for($fase = 1; $fase < EnfrentamientosController::cardinalidadFactores($torneo->cantidad); ++$fase) {
+                $enfrentamientos = DB::table('enfrentamientos')
+                    ->where('codigo_torneo', $codigo)
+                    ->where('fase', $fase)
+                    ->orderBy('fecha', 'desc')
+                    ->get();
+
+                for($i = 0; $i < count($enfrentamientos); ++$i) {
+                    $set =  DB::table('sets')
+                        ->where('cedula_participante_1', $enfrentamientos[0]->cedula_participante_1)
+                        ->where('cedula_participante_2', $enfrentamientos[0]->cedula_participante_2)
+                        ->where('codigo_torneo', $codigo)
+                        ->where('fase', $fase)
+                        ->where('set', $enfrentamientos[0]->sets_jugados - 1)
+                        ->first();
+
+                    $resultados[$fase-1][$i] = array($set->puntos_participante_1, $set->puntos_participante_2);
+                }
+            }
+            return array('teams' => $participantes, 'results' => $resultados);
+        }
     }
 }
 ?>

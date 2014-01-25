@@ -240,6 +240,7 @@ function cargarEnfrentamiento(cedula1, cedula2, codigo, fase, id) {
     $.ajax({
         url: rutaEnfrentamiento,
         type: 'GET',
+        async: false,
         data: {
             'cedula_participante_1': cedula1,
             'cedula_participante_2': cedula2,
@@ -286,6 +287,7 @@ function cargarSet(cedula1, cedula2, codigo, fase, set, id) {
     $.ajax({
         url: rutaSet,
         type: 'GET',
+        async: false,
         data: {
             'cedula_participante_1': cedula1,
             'cedula_participante_2': cedula2,
@@ -325,7 +327,7 @@ function inflarModificacion() {
                 $('input[name="codigo"]').val(),
                 fase,
                 id);
-        }, fase * 2000);
+        }, 0);
 
     });
 }
