@@ -96,6 +96,10 @@ function getFase(id) {
     return parseInt(split[0]);
 }
 
+function faseExiste(fase) {
+    return $('.formulario[data-id="' + fase + '-' + 0 + '"]').length > 0;
+}
+
 function getGrupo(id) {
     var split = id.split('-');
     return split[split.length - 2];
@@ -161,7 +165,7 @@ function getProximoEnfrentamiento(enfrentamiento) {
 }
 
 function planificarEnfrentamientos(id) {
-    if (id.split('-')[0] == '0') {
+    if (faseExiste(1) && id.split('-')[0] == '0') {
         var grupo = getGrupo(id);
         var grupoContrario = getGrupoContrario(id);
         var mejoresGrupo;
@@ -189,11 +193,12 @@ function planificarEnfrentamientos(id) {
         if (setGrupoContrario != -1)
             cambiarPuntos($('.puntos[name="1-' + getIndiceEnfrentamiento(grupoContrario) + '-' + setGrupoContrario + '-puntos_participante_1"]'));
 
-    } else {
+    } else if (faseExiste(getFase(id) + 1)) {
         var fase = getFase(id) + 1;
         var enfrentamiento = getEnfrentamiento(id);
         var proximoEnfrentamiento = getProximoEnfrentamiento(enfrentamiento);
 
+        console.log();
 
         if (esImpar(enfrentamiento))
             $('select[name="' + fase + '-' + proximoEnfrentamiento + '-cedula_participante_2"]').val(ganadores[id]);
@@ -320,7 +325,7 @@ function inflarModificacion() {
                 $('input[name="codigo"]').val(),
                 fase,
                 id);
-        }, fase * 1500);
+        }, fase * 2000);
 
     });
 }
