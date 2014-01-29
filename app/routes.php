@@ -26,6 +26,7 @@ Route::group(array('before' => 'auth'), function()
     Route::controller('torneos', 'TorneosController');
     Route::controller('enfrentamientos', 'EnfrentamientosController');
     Route::controller('sets', 'SetsController');
+    Route::controller('ranking', 'RankingController');
 });
 
 Route::get('/login', array('as' => 'login',function()

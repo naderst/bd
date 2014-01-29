@@ -79,8 +79,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)">
-                            <i class="fa fa-sort-numeric-asc"></i>Ranking</a>
+                        <a href="{{ URL::action('RankingController@getIndex') }}"@if (Request::segment(1) == 'ranking') class="seleccionado"@endif>
+                            <i class="fa fa-male"></i>Ranking
+                            @if (Request::segment(1) == 'ranking')
+                            <span class="flecha"></span>
+                            @endif
+                        </a>
                     </li>
                 </ul>
             </nav>
