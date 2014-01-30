@@ -40,6 +40,8 @@
 			<tbody>
 			    <tr>
 			        <th>Cedula</th>
+			        <th>Nombre</th>
+			        <th>Estado</th>
 			        <th>Partidos jugados</th>
 			        <th>Partidos ganados</th>
 			        <th>Partidos perdidos</th>
@@ -48,6 +50,8 @@
 			    @foreach ($ranking_estadal as $e)
 			    <tr>
 			        <td>{{ $e->cedula_atleta }}</td>
+			        <td>{{ $e->atleta->nombres.' '.$e->atleta->apellidos }} </td>
+			        <td>{{ $e->atleta->club->asociacion->estado }} </td>
 			        <td>{{ $e->partidos_jugados }}</td>
 			        <td>{{ $e->partidos_ganados }}</td>
 			        <td>{{ $e->partidos_perdidos }}</td>
@@ -67,6 +71,7 @@
 			<tbody>
 			    <tr>
 			        <th>Cedula</th>
+			        <th>Nombre</th>
 			        <th>Partidos jugados</th>
 			        <th>Partidos ganados</th>
 			        <th>Partidos perdidos</th>
@@ -75,6 +80,7 @@
 			    @foreach ($ranking_nacional as $e)
 			    <tr>
 			        <td>{{ $e->cedula_atleta }}</td>
+			        <td>{{ $e->atleta->nombres.' '.$e->atleta->apellidos }} </td>
 			        <td>{{ $e->partidos_jugados }}</td>
 			        <td>{{ $e->partidos_ganados }}</td>
 			        <td>{{ $e->partidos_perdidos }}</td>

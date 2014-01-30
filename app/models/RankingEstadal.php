@@ -5,5 +5,8 @@ class RankingEstadal extends Eloquent {
 
 	public $timestamps = false;
 
+	function atleta() {
+		return $this->belongsTo('Atleta', 'cedula_atleta', 'cedula');
+	}
 }
 ?>

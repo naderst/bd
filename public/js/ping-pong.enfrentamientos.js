@@ -224,6 +224,9 @@ function cambiarPuntos(campo) {
     id = id.substring(0, id.lastIndexOf('-'));
 
     if (esUltimoSet(id, set) && esGanador(id, set, participante)) {
+        // var puntosParticipante1 = $(campo + '[name="' + id + '-puntos_' + participante + '"]').val();
+        // var puntosParticipante2 = $(campo + '[name="' + id + '-puntos_' + oponente + '"]').val();
+
         var cedula = $(campo + '[name="' + id + '-cedula_' + participante + '"]').val();
         ganadores[id] = cedula;
     } else if (esUltimoSet(id, set) && esGanador(id, set, oponente)) {
