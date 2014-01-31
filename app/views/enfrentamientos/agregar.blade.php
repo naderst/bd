@@ -65,12 +65,12 @@
                             </tr>
                             <tr>
                                 <td class="boton" colspan="2">
-                                    <a class="agregar-sets" data-id="{{$f.'-'.$g.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar sets</a>
+                                    <a class="agregar-sets" data-id="{{$f.'-'.$g.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar set</a>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="boton" colspan="2">
-                                    <a class="eliminar-sets eliminar" data-id="{{$f.'-'.$g.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Eliminar sets</a>
+                                    <a class="eliminar-sets eliminar" data-id="{{$f.'-'.$g.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Eliminar set</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -109,11 +109,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="boton" colspan="2"><a class="agregar-sets" data-id="{{$f.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar sets</a></td>
+                            <td class="boton" colspan="2"><a class="agregar-sets" data-id="{{$f.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar set</a></td>
                         </tr>
                          <tr>
                             <td class="boton" colspan="2">
-                                <a class="eliminar-sets eliminar" data-id="{{$f.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Eliminar sets</a>
+                                <a class="eliminar-sets eliminar" data-id="{{$f.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Eliminar set</a>
                             </td>
                         </tr>
                     </tbody>
@@ -144,12 +144,12 @@
                     </tr>
                     <tr>
                         <td class="boton" colspan="2">
-                            <a class="agregar-sets" data-id="{{$f.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar sets</a>
+                            <a class="agregar-sets" data-id="{{$f.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Agregar set</a>
                         </td>
                     </tr>
                      <tr>
                         <td class="boton" colspan="2">
-                            <a class="eliminar-sets eliminar" data-id="{{$f.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Eliminar sets</a>
+                            <a class="eliminar-sets eliminar" data-id="{{$f.'-'.$e}}" href="javascript:void(0)"><i class="fa fa-plus"></i>Eliminar set</a>
                         </td>
                     </tr>
                 </tbody>

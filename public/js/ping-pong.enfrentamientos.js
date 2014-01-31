@@ -51,28 +51,32 @@ function agregarSets(id, contenedor) {
     var setsJugados = parseInt($('input[name=' + id + '-sets_jugados]').val());
     var html = '';
 
-    var cantidad = (setsJugados > 0 ? 2 : 1);
+    html += '<tr class="set center" data-id="' + id + '-' + setsJugados + '"><td colspan="2"><b>Set ' + (setsJugados + 1) + '</b></td></tr>' +
+        '<tr data-id="' + id + '-' + setsJugados + '"><td>Puntos participante 1:</td>' +
+        '<td><input class="puntos" name="' + id + '-' + setsJugados + '-puntos_participante_1" data-participante="participante_1" type="text" value="0"></td></tr>' +
+        '<tr data-id="' + id + '-' + setsJugados + '"><td>Puntos participante 2:</td>' +
+        '<td><input class="puntos" name="' + id + '-' + setsJugados + '-puntos_participante_2" data-participante="participante_2" type="text" value="0"></td></tr>';
+    $('input[name=' + id + '-sets_jugados]').val(++setsJugados);
 
-    for (i = 0; i < cantidad; ++i) {
-        html += '<tr class="set center" data-id="' + id + '-' + setsJugados + '"><td colspan="2"><b>Set ' + (setsJugados + 1) + '</b></td></tr>' +
-            '<tr data-id="' + id + '-' + setsJugados + '"><td>Puntos participante 1:</td>' +
-            '<td><input class="puntos" name="' + id + '-' + setsJugados + '-puntos_participante_1" data-participante="participante_1" type="text" value="0"></td></tr>' +
-            '<tr data-id="' + id + '-' + setsJugados + '"><td>Puntos participante 2:</td>' +
-            '<td><input class="puntos" name="' + id + '-' + setsJugados + '-puntos_participante_2" data-participante="participante_2" type="text" value="0"></td></tr>';
-        $('input[name=' + id + '-sets_jugados]').val(++setsJugados);
-    }
+    if (setsJugados == 7)
+        $('.agregar-sets[data-id="' + id + '"]').parent().parent().hide();
+
     contenedor.before(html);
 }
 
 function eliminarSets(id) {
+    var campo = (getFase(id) > 0 ? 'select' : 'input');
+    var participante = 'participante_1';
+    var oponente = 'participante_' + (participante.substring(participante.lastIndexOf('_') + 1) == '1' ? '2' : '1');
     var setsJugados = parseInt($('input[name=' + id + '-sets_jugados]').val());
 
-    var cantidad = (setsJugados == 1 ? 1 : 2);
+    $('tr[data-id="' + id + '-' + (setsJugados - 1) + '"]').remove();
+    $('input[name=' + id + '-sets_jugados]').val((setsJugados = (setsJugados - 1) < 0 ? 0 : (setsJugados - 1)));
 
-    for (i = 0; i < cantidad; ++i) {
-        $('tr[data-id="' + id + '-' + (setsJugados - 1) + '"]').remove();
-        $('input[name=' + id + '-sets_jugados]').val((setsJugados = (setsJugados - 1) < 0 ? 0 : (setsJugados - 1)));
-    }
+    if (setsJugados < 7)
+        $('.agregar-sets[data-id="' + id + '"]').parent().parent().show();
+
+    validarSets(campo, participante, oponente, id);
 }
 
 function esUltimoSet(id, set) {
@@ -226,6 +230,37 @@ function validarPuntos(campo, participante, oponente, id) {
     return true;
 }
 
+function setsGanados(campo, participante, oponente, id) {
+    var setsJugados = parseInt($('input[name=' + id + '-sets_jugados]').val());
+    var cantidad = 0;
+
+    for (i = 0; i < setsJugados; ++i) {
+        var puntosParticipante1 = parseInt($(campo + '[name="' + id + '-' + i + '-puntos_' + participante + '"]').val());
+        var puntosParticipante2 = parseInt($(campo + '[name="' + id + '-' + i + '-puntos_' + oponente + '"]').val());
+
+        if (puntosParticipante1 > puntosParticipante2)
+            cantidad++;
+
+    }
+
+    return cantidad;
+}
+
+function validarSets(campo, participante, oponente, id) {
+    var setsJugados = parseInt($('input[name=' + id + '-sets_jugados]').val());
+
+    if (setsJugados == 2 && setsGanados(campo, participante, oponente, id) == 1) {
+        alert('Se debe desempatar el enfrentamiento');
+        agregarSets(id, $('.agregar-sets[data-id="' + id + '"]').parent().parent());
+    } else if (setsJugados == 4 && setsGanados(campo, participante, oponente, id) == 2) {
+        alert('Se debe desempatar el enfrentamiento');
+        agregarSets(id, $('.agregar-sets[data-id="' + id + '"]').parent().parent());
+    } else if (setsJugados == 6 && setsGanados(campo, participante, oponente, id) == 3) {
+        alert('Se debe desempatar el enfrentamiento');
+        agregarSets(id, $('.agregar-sets[data-id="' + id + '"]').parent().parent());
+    }
+}
+
 function cambiarPuntos(campo) {
     var id = campo.parent().parent().attr('data-id');
     var participante = campo.attr('data-participante');
@@ -237,6 +272,8 @@ function cambiarPuntos(campo) {
     validarPuntos(campo, participante, oponente, id);
 
     id = id.substring(0, id.lastIndexOf('-'));
+
+    validarSets(campo, participante, oponente, id);
 
     if (esUltimoSet(id, set) && esGanador(id, set, participante)) {
         var cedula = $(campo + '[name="' + id + '-cedula_' + participante + '"]').val();
