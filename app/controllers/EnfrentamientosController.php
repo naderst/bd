@@ -124,7 +124,7 @@ class EnfrentamientosController extends BaseController {
 
                         if (abs($puntosParticipante1 - $puntosParticipante2) < 2) {
                              $errores = $errores.'<br>'.'No se pudo guardar el enfrentamiento de '.Input::get($fase.'-'.$grupoId.$enfrentamiento.'-cedula_participante_1').' vs '.
-                             Input::get($fase.'-'.$grupoId.$enfrentamiento.'-cedula_participante_2').' La diferencia debe ser de <b>2</b> puntos';
+                             Input::get($fase.'-'.$grupoId.$enfrentamiento.'-cedula_participante_2').' .La diferencia debe ser de <b>2</b> puntos';
 
                              continue;
                         }

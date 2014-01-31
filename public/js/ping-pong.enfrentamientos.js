@@ -318,7 +318,7 @@ function inflarEnfrentamiento(enfrentamiento, id) {
 
         agregarSets(id, $('.agregar-sets[data-id="' + id + '"]').parent().parent());
 
-        for (var i = 1; i < ((parseInt(enfrentamiento.sets_jugados) - 1) / 2) + 1; ++i) {
+        for (var i = 1; i < (parseInt(enfrentamiento.sets_jugados) - 1) + 1; ++i) {
             agregarSets(id, $('.agregar-sets[data-id="' + id + '"]').parent().parent());
         }
 
