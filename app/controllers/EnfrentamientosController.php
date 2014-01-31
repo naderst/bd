@@ -116,9 +116,18 @@ class EnfrentamientosController extends BaseController {
 
                     $grupoId = ($fase == 0 && $torneo->cantidad >= 8 ? EnfrentamientosController::$GRUPOS[$grupo].'-' : '');
 
-                    if (($setsJugados = intval(Input::get($fase.'-'.$grupoId.$enfrentamiento.'-sets_jugados'))) > 0
-                    && (intval(Input::get($fase.'-'.$grupoId.$enfrentamiento.'-'.($setsJugados - 1).'-puntos_participante_1')) > 0
-                    || intval(Input::get($fase.'-'.$grupoId.$enfrentamiento.'-'.($setsJugados - 1).'-puntos_participante_2')) > 0 )) {
+                    $setsJugados = intval(Input::get($fase.'-'.$grupoId.$enfrentamiento.'-sets_jugados'));
+                    $puntosParticipante1 = intval(Input::get($fase.'-'.$grupoId.$enfrentamiento.'-'.($setsJugados - 1).'-puntos_participante_1'));
+                    $puntosParticipante2 = intval(Input::get($fase.'-'.$grupoId.$enfrentamiento.'-'.($setsJugados - 1).'-puntos_participante_2'));
+
+                    if ($setsJugados > 0 && ($puntosParticipante1 > 0 || $puntosParticipante1 > 0 )) {
+
+                        if (abs($puntosParticipante1 - $puntosParticipante2) <= 2) {
+                             $errores = $errores.'<br>'.'No se pudo guardar el enfrentamiento de '.Input::get($fase.'-'.$grupoId.$enfrentamiento.'-cedula_participante_1').' vs '.
+                             Input::get($fase.'-'.$grupoId.$enfrentamiento.'-cedula_participante_2').' La diferencia debe ser de <b>2</b> puntos';
+
+                             continue;
+                        }
 
                         $cedulaParticipante1 = Input::get($fase.'-'.$grupoId.$enfrentamiento.'-cedula_participante_1');
                         $cedulaParticipante2 = Input::get($fase.'-'.$grupoId.$enfrentamiento.'-cedula_participante_2');
@@ -241,14 +250,14 @@ class EnfrentamientosController extends BaseController {
             }
 
 
-            for($fase = 1; $fase < EnfrentamientosController::cardinalidadFactores($torneo->cantidad); ++$fase) {
+            for ($fase = 1; $fase < EnfrentamientosController::cardinalidadFactores($torneo->cantidad); ++$fase) {
                 $enfrentamientos = DB::table('enfrentamientos')
                     ->where('codigo_torneo', $codigo)
                     ->where('fase', $fase)
                     ->orderBy('fecha', 'desc')
                     ->get();
 
-                for($i = 0; $i < count($enfrentamientos); ++$i) {
+                for ($i = 0; $i < count($enfrentamientos); ++$i) {
                     $set =  DB::table('sets')
                         ->where('cedula_participante_1', $enfrentamientos[0]->cedula_participante_1)
                         ->where('cedula_participante_2', $enfrentamientos[0]->cedula_participante_2)
