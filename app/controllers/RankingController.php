@@ -1,50 +1,45 @@
 <?php
 class RankingController extends BaseController {
 
-	function getIndex() {
-		return View::make('ranking.index', array(
-			'ranking_estadal' => RankingEstadal::orderBy('puntos', 'desc')->paginate(10),
-			'ranking_nacional' => RankingNacional::orderBy('puntos', 'desc')->paginate(10)
-		));
-	}
+    function getIndex() {
+        return View::make('ranking.index', array(
+            'ranking_nacional' => RankingNacional::join('atletas','ranking_nacional.cedula_atleta','=','atletas.cedula')
+                                                   ->orderBy('puntos', 'desc')->paginate(10),
 
-	function getBuscar() {
-		$q = Input::get('q');
+            'ranking_estadal' => RankingEstadal::join('atletas','ranking_estadal.cedula_atleta','=','atletas.cedula')
+                                                 ->join('clubes','atletas.codigo_club','=','clubes.codigo')
+                                                 ->join('asociaciones','clubes.codigo_asociacion','=','asociaciones.codigo')
+                                                 ->orderBy('puntos', 'desc')->paginate(10)
+        ));
+    }
 
-		if(trim($q) == '') {
-			Session::flash('message', 'No puede realizar una búsqueda vacía');
-			Session::flash('message_type', 'error');
-			return Redirect::to(Session::get('page.url'));
-		}
+    function getBuscar() {
+        $q = Input::get('q');
 
-		RankingNacional::where('cedula_atleta', 'ILIKE', '%'.$q.'%')
-												   ->orWhere('cedula_atleta', 'ILIKE', '%'.$q.'%')
-												   // ->orWhere('nombres', 'ILIKE', '%'.$q.'%')
-												   // ->orWhere('apellidos', 'ILIKE', '%'.$q.'%')
-												   ->orderBy('puntos', 'desc')->paginate(10);
+        if(trim($q) == '') {
+            Session::flash('message', 'No puede realizar una búsqueda vacía');
+            Session::flash('message_type', 'error');
+            return Redirect::to(Session::get('page.url'));
+        }
 
+        return View::make('ranking.index', array(
+            'q' => $q,
 
-		$queries = DB::getQueryLog();
-		$last_query = end($queries);
+            'ranking_nacional' => RankingNacional::join('atletas','ranking_nacional.cedula_atleta','=','atletas.cedula')
+                                                   ->where('cedula_atleta', 'ILIKE', '%'.$q.'%')
+                                                   ->orWhere('nombres', 'ILIKE', '%'.$q.'%')
+                                                   ->orWhere('apellidos', 'ILIKE', '%'.$q.'%')
+                                                   ->orderBy('puntos', 'desc')->paginate(10),
 
-		return $last_query;
-
-		return View::make('ranking.index', array(
-			'q' => $q,
-			// 'ranking_nacional' => RankingNacional::where('cedula_atleta', 'ILIKE', '%'.$q.'%')
-			// 									   ->orWhere('cedula_atleta', 'ILIKE', '%'.$q.'%')
-			// 									   ->orWhere('atletas.nombres', 'ILIKE', '%'.$q.'%')
-			// 									   ->orWhere('apellidos', 'ILIKE', '%'.$q.'%')
-			// 									   ->orderBy('puntos', 'desc')->paginate(10),
-				'ranking_nacional' => DB::table('ranking_nacional')
-												   ->join('atletas', )
-			'ranking_estadal' => RankingEstadal::where('cedula_atleta', 'ILIKE', '%'.$q.'%')
-												   ->orWhere('cedula_atleta', 'ILIKE', '%'.$q.'%')
-												   ->orWhere('nombres', 'ILIKE', '%'.$q.'%')
-												   ->orWhere('apellidos', 'ILIKE', '%'.$q.'%')
-												   ->orWhere('estado', 'ILIKE', '%'.$q.'%')
-												   ->orderBy('puntos', 'desc')->paginate(10)
-		));
-	}
+            'ranking_estadal' => RankingEstadal::join('atletas','ranking_estadal.cedula_atleta','=','atletas.cedula')
+                                                   ->join('clubes','atletas.codigo_club','=','clubes.codigo')
+                                                   ->join('asociaciones','clubes.codigo_asociacion','=','asociaciones.codigo')
+                                                   ->where('cedula_atleta', 'ILIKE', '%'.$q.'%')
+                                                   ->orWhere('nombres', 'ILIKE', '%'.$q.'%')
+                                                   ->orWhere('apellidos', 'ILIKE', '%'.$q.'%')
+                                                   ->orWhere('estado', 'ILIKE', '%'.$q.'%')
+                                                   ->orderBy('puntos', 'desc')->paginate(10)
+        ));
+    }
 }
 ?>

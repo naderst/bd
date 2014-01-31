@@ -163,7 +163,7 @@ body {
     font-size: 1em;
     height: 30px;
     width: 120px;
-    padding: 1px 3px 0;
+    padding: 4px 5px 0;
 }
 #principal .breadcrumb .busqueda:hover {
     background-color: #F5F5F5;
