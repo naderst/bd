@@ -213,6 +213,19 @@ function planificarEnfrentamientos(id) {
     }
 }
 
+function validarPuntos(campo, participante, oponente, id) {
+    var puntosParticipante1 = parseInt($(campo + '[name="' + id + '-puntos_' + participante + '"]').val());
+    var puntosParticipante2 = parseInt($(campo + '[name="' + id + '-puntos_' + oponente + '"]').val());
+
+    if (Math.abs(puntosParticipante1 - puntosParticipante2) < 2) {
+        alert('La diferencia debe ser de 2 puntos');
+        $(campo + '[name="' + id + '-puntos_' + participante + '"]').val(0);
+        $(campo + '[name="' + id + '-puntos_' + oponente + '"]').val(0);
+        return false;
+    }
+    return true;
+}
+
 function cambiarPuntos(campo) {
     var id = campo.parent().parent().attr('data-id');
     var participante = campo.attr('data-participante');
@@ -221,12 +234,11 @@ function cambiarPuntos(campo) {
     var set = getSet(id);
     var campo = (fase > 0 ? 'select' : 'input');
 
+    validarPuntos(campo, participante, oponente, id);
+
     id = id.substring(0, id.lastIndexOf('-'));
 
     if (esUltimoSet(id, set) && esGanador(id, set, participante)) {
-        // var puntosParticipante1 = $(campo + '[name="' + id + '-puntos_' + participante + '"]').val();
-        // var puntosParticipante2 = $(campo + '[name="' + id + '-puntos_' + oponente + '"]').val();
-
         var cedula = $(campo + '[name="' + id + '-cedula_' + participante + '"]').val();
         ganadores[id] = cedula;
     } else if (esUltimoSet(id, set) && esGanador(id, set, oponente)) {

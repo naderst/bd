@@ -120,9 +120,9 @@ class EnfrentamientosController extends BaseController {
                     $puntosParticipante1 = intval(Input::get($fase.'-'.$grupoId.$enfrentamiento.'-'.($setsJugados - 1).'-puntos_participante_1'));
                     $puntosParticipante2 = intval(Input::get($fase.'-'.$grupoId.$enfrentamiento.'-'.($setsJugados - 1).'-puntos_participante_2'));
 
-                    if ($setsJugados > 0 && ($puntosParticipante1 > 0 || $puntosParticipante1 > 0 )) {
+                    if ($setsJugados > 0) {
 
-                        if (abs($puntosParticipante1 - $puntosParticipante2) <= 2) {
+                        if (abs($puntosParticipante1 - $puntosParticipante2) < 2) {
                              $errores = $errores.'<br>'.'No se pudo guardar el enfrentamiento de '.Input::get($fase.'-'.$grupoId.$enfrentamiento.'-cedula_participante_1').' vs '.
                              Input::get($fase.'-'.$grupoId.$enfrentamiento.'-cedula_participante_2').' La diferencia debe ser de <b>2</b> puntos';
 
