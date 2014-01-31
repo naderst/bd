@@ -5,8 +5,15 @@
     Version: 1.0
 */
 
+function agregarCero(n) {
+    if (parseInt(n) < 10)
+        return '0' + n
+    return n;
+}
 
 $(document).ready(function () {
+    var hoy = new Date();
+
     $('#toggler').click(function () {
         $('#aside').slideToggle('fast');
     });
@@ -31,12 +38,20 @@ $(document).ready(function () {
         $('#frmAsoc').submit();
     });
 
-    if ($('.fecha input[type=text]').length > 0) {
-        $('.fecha input[type=text]').datetimepicker({
-            lang: 'es',
-            timepicker: false,
-            format: 'd/m/Y',
-            scrollInput: false
-        });
-    }
+    //    $('.fecha input[type=text]').datetimepicker({
+    //        lang: 'es',
+    //        timepicker: false,
+    //        format: 'd/m/Y',
+    //        scrollInput: false
+    //    });
+
+    $('.fecha.nacimiento input[type=text]').datetimepicker({
+        lang: 'es',
+        timepicker: false,
+        format: 'd/m/Y',
+        scrollInput: false,
+        value: agregarCero(hoy.getDate()) + '/' + (agregarCero(hoy.getMonth() + 1)) + '/' + (hoy.getFullYear() - 6),
+        maxDate: (hoy.getFullYear() - 6) + '/' + (agregarCero(hoy.getMonth() + 1)) + '/' + agregarCero(hoy.getDate())
+    });
+
 });

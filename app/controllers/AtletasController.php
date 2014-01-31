@@ -1,115 +1,126 @@
 <?php
 class AtletasController extends BaseController {
-	private $rules = array(
-		'cedula' => 'required|unique:atletas',
-		'nombres' => 'required|min:2',
-		'apellidos' => 'required|min:2',
-		'fecha_nacimiento' => 'required|date_format:d/m/Y'
-	);
+    private $rules = array(
+        'cedula' => 'required|unique:atletas',
+        'nombres' => 'required|min:2',
+        'apellidos' => 'required|min:2',
+        'fecha_nacimiento' => 'required|date_format:d/m/Y|edad_minima'
+    );
 
-	private function getClubes() {
-		$clubes = Club::all();
-		$a = array('' => 'Independiente');
-		
-		foreach($clubes as $e)
-			$a[$e->codigo] = $e->nombre;
-		
-		return $a;
-	}
+   function __construct() {
+        parent::__construct();
+        Validator::extend('edad_minima', function($attribute, $value, $parameters) {
+            $maximo = date('d/m/Y', strtotime(date('d/m/Y').' -1 year'));
+            $value = date($value);
+            if ($value <= $maximo)
+                return true;
+            return false;
+        });
+    }
 
-	function getJson($codigo_club = null) {
-		return Atleta::orderBy('apellidos', 'asc')->where('codigo_club', '=', $codigo_club)->get(array('atletas.cedula', 'atletas.nombres', 'atletas.apellidos'));
-	}
+    private function getClubes() {
+        $clubes = Club::all();
+        $a = array('' => 'Independiente');
 
-	function getIndex() {
-		return View::make('atletas.index', array(
-			'atletas' => Atleta::orderBy('apellidos', 'asc')->paginate(10)
-		));
-	}
+        foreach($clubes as $e)
+            $a[$e->codigo] = $e->nombre;
 
-	function getAgregar() {
-		return View::make('atletas.modificar', array(
-			'clubes' => $this->getClubes()
-		));
-	}
+        return $a;
+    }
 
-	function postAgregar($agregar = null) {
-		$validator = Validator::make(Input::all(), $this->rules, $this->messages);
+    function getJson($codigo_club = null) {
+        return Atleta::orderBy('apellidos', 'asc')->where('codigo_club', '=', $codigo_club)->get(array('atletas.cedula', 'atletas.nombres', 'atletas.apellidos'));
+    }
 
-		if($validator->fails()) {
-			return Redirect::action('AtletasController@getAgregar')->withErrors($validator)->withInput();
-		}
+    function getIndex() {
+        return View::make('atletas.index', array(
+            'atletas' => Atleta::orderBy('apellidos', 'asc')->paginate(10)
+        ));
+    }
 
-		$input = Input::except('_token');
+    function getAgregar() {
+        return View::make('atletas.modificar', array(
+            'clubes' => $this->getClubes()
+        ));
+    }
 
-		if($input['codigo_club'] == '')
-			$input['codigo_club'] = null;
+    function postAgregar($agregar = null) {
+        $validator = Validator::make(Input::all(), $this->rules, $this->messages);
 
-		Atleta::insert($input);
-		Session::flash('message', 'Se ha agregado el atleta con éxito');
+        if($validator->fails()) {
+            return Redirect::action('AtletasController@getAgregar')->withErrors($validator)->withInput();
+        }
 
-		if($agregar)
-			return Redirect::action('AtletasController@getAgregar');
-		else
-			return Redirect::action('AtletasController@getIndex');
-	}
+        $input = Input::except('_token');
 
-	function getModificar($cedula) {
-		return View::make('atletas.modificar', array(
-			'atletas' => Atleta::find($cedula),
-			'clubes' => $this->getClubes()
-		));
-	}
+        if($input['codigo_club'] == '')
+            $input['codigo_club'] = null;
 
-	function postModificar($cedula) {
-		unset($this->rules['cedula']);
+        Atleta::insert($input);
+        Session::flash('message', 'Se ha agregado el atleta con éxito');
 
-		$validator = Validator::make(Input::all(), $this->rules, $this->messages);
+        if($agregar)
+            return Redirect::action('AtletasController@getAgregar');
+        else
+            return Redirect::action('AtletasController@getIndex');
+    }
 
-		if($validator->fails()) {
-			return Redirect::action('AtletasController@getModificar', $cedula)->withErrors($validator)->withInput();
-		}
+    function getModificar($cedula) {
+        return View::make('atletas.modificar', array(
+            'atletas' => Atleta::find($cedula),
+            'clubes' => $this->getClubes()
+        ));
+    }
 
-		$input = Input::except('_token', 'cedula');
+    function postModificar($cedula) {
+        unset($this->rules['cedula']);
 
-		if($input['codigo_club'] == '')
-			$input['codigo_club'] = null;
+        $validator = Validator::make(Input::all(), $this->rules, $this->messages);
 
-		Atleta::where('cedula', $cedula)->update($input);
-		Session::flash('message', 'Se ha actualizado el atleta con éxito');
+        if($validator->fails()) {
+            return Redirect::action('AtletasController@getModificar', $cedula)->withErrors($validator)->withInput();
+        }
 
-		return Redirect::to(Session::get('page.url'));
-	}
+        $input = Input::except('_token', 'cedula');
 
-	function getEliminar($cedula) {
-		try {
-			Atleta::destroy($cedula);
-			Session::flash('message', 'Se ha eliminado el atleta con éxito');
-		} catch(Exception $exception) {
-			Session::flash('message', 'Error eliminando el atleta, el servidor dijo:<br>'.$exception->getMessage());
-			Session::flash('message_type', 'error');
-		}
+        if($input['codigo_club'] == '')
+            $input['codigo_club'] = null;
 
-		return Redirect::to(Session::get('page.url'));
-	}
+        Atleta::where('cedula', $cedula)->update($input);
+        Session::flash('message', 'Se ha actualizado el atleta con éxito');
 
-	function getBuscar() {
-		$q = Input::get('q');
+        return Redirect::to(Session::get('page.url'));
+    }
 
-		if(trim($q) == '') {
-			Session::flash('message', 'No puede realizar una búsqueda vacía');
-			Session::flash('message_type', 'error');
-			return Redirect::to(Session::get('page.url'));
-		}
+    function getEliminar($cedula) {
+        try {
+            Atleta::destroy($cedula);
+            Session::flash('message', 'Se ha eliminado el atleta con éxito');
+        } catch(Exception $exception) {
+            Session::flash('message', 'Error eliminando el atleta, el servidor dijo:<br>'.$exception->getMessage());
+            Session::flash('message_type', 'error');
+        }
 
-		return View::make('atletas.index', array(
-			'q' => $q,
-			'atletas' => Atleta::where('nombres', 'ILIKE', '%'.$q.'%')
-								->orWhere('apellidos', 'ILIKE', '%'.$q.'%')
-								->orWhere('cedula', 'ILIKE', '%'.$q.'%')
-								->orderBy('apellidos', 'asc')
-								->paginate(10)
-		));
-	}
+        return Redirect::to(Session::get('page.url'));
+    }
+
+    function getBuscar() {
+        $q = Input::get('q');
+
+        if(trim($q) == '') {
+            Session::flash('message', 'No puede realizar una búsqueda vacía');
+            Session::flash('message_type', 'error');
+            return Redirect::to(Session::get('page.url'));
+        }
+
+        return View::make('atletas.index', array(
+            'q' => $q,
+            'atletas' => Atleta::where('nombres', 'ILIKE', '%'.$q.'%')
+                                ->orWhere('apellidos', 'ILIKE', '%'.$q.'%')
+                                ->orWhere('cedula', 'ILIKE', '%'.$q.'%')
+                                ->orderBy('apellidos', 'asc')
+                                ->paginate(10)
+        ));
+    }
 }
 ?>
