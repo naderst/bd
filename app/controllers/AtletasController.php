@@ -10,9 +10,9 @@ class AtletasController extends BaseController {
    function __construct() {
         parent::__construct();
         Validator::extend('edad_minima', function($attribute, $value, $parameters) {
-            $maximo = date('d/m/Y', strtotime(date('d/m/Y').' -1 year'));
-            $value = date($value);
-            if ($value <= $maximo)
+            $maximo = strtotime("today -6 year");
+
+            if ($maximo >= strtotime(date_format(DateTime::createFromFormat('d/m/Y', $value),'d-m-Y')))
                 return true;
             return false;
         });

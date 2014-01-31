@@ -36,24 +36,44 @@ class TorneosController extends BaseController {
 
     function postAgregar($agregar = null) {
         $validator = Validator::make(Input::all(), $this->rules, $this->messages);
+        $errores = '';
+        $enfrentamientos = true;
 
         if($validator->fails()) {
             return Redirect::action('TorneosController@getAgregar')->withErrors($validator)->withInput();
         }
 
-        DB::table('torneos')->insert(Input::only('descripcion', 'fecha_inicio', 'fecha_fin', 'tipo', 'cantidad'));
-        $torneo = DB::table('torneos')->orderBy('codigo', 'desc')->first();
-
         for ($i = 1; $i <= Input::get('cantidad'); ++$i) {
-            DB::table('participantes')->insert(array(
-                'cedula_atleta' => Input::get('atleta-'.$i),
-                'codigo_torneo' => $torneo->codigo
-            ));
+            if (Input::get('atleta-'.$i) == null) {
+                $enfrentamientos = false;
+                $errores = $errores.'<br> Debe seleccionar atletas a participar';
+                break;
+            }
+        }
+        if ($enfrentamientos) {
+
+            DB::table('torneos')->insert(Input::only('descripcion', 'fecha_inicio', 'fecha_fin', 'tipo', 'cantidad'));
+            $torneo = DB::table('torneos')->orderBy('codigo', 'desc')->first();
+
+            for ($i = 1; $i <= Input::get('cantidad'); ++$i) {
+                try {
+                    DB::table('participantes')->insert(array(
+                        'cedula_atleta' => Input::get('atleta-'.$i),
+                        'codigo_torneo' => $torneo->codigo
+                    ));
+                    DB::select('SELECT f_generar_grupos('.$torneo->codigo.');');
+                } catch(Exception $exception) {
+                    $errores = $errores.'<br>'.$exception->getMessage();
+                }
+            }
         }
 
-        DB::select('SELECT f_generar_grupos('.$torneo->codigo.');');
-
-        Session::flash('message', 'Se ha agregado el torneo con éxito');
+        if ($errores != '') {
+            Session::flash('message', 'Error agregando enfrentamientos/sets, el servidor dijo:'.$errores);
+            Session::flash('message_type', 'error');
+        } else {
+            Session::flash('message', 'Se ha agregado el torneo con éxito');
+        }
 
         if ($agregar)
             return Redirect::action('TorneosController@getAgregar');
